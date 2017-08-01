@@ -1,0 +1,114 @@
+This is a C++ program to sort the given data using Counter Sort.
+
+Problem Description:
+1. Counter sort implements on a given finite range (k) of the integers.
+2. It counts the occurrence of each element.
+3. Since it maintains the counter of each integer in the range space complexity is O(k).
+4. The time complexity is O(n+k).
+
+Problem Solution:
+1. count the number of occurrences of each element.
+2. Store it in the array of size same as the range of data input. 
+3. Use the element value to refer the counter index.
+4. Display the result.
+5. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to implement Counter Sort.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function implementing Counter sort.
+void CounterSort(int a[], int n, int r, int lower)
+{
+	int i, j = 0, counter[r] = {0};	
+	// Counting the number occurrence of each element.
+	for(i=0; i<n; i++)
+		counter[a[i]-lower]++;
+	
+	i=0;
+	// placing the elements back into array.
+	while(i < r)
+	{
+		flag:
+		a[j] = lower+i;
+		j++;
+		counter[i]--;
+		
+		// place the same element until its counter is zero.
+		if(counter[i] > 0)
+		goto flag;
+		
+		i++;
+	}
+}
+
+int main()
+{
+	int n, i, range, ulimit, llimit;
+	cout<<"\nEnter the number of data element to be sorted: ";
+	cin>>n;
+	
+	cout<<"\nEnter the lower and upper limit of the data to be entered: ";
+	cin>>llimit>>ulimit;
+	
+	// Range of the input data. 
+	range = ulimit-llimit+1;
+	
+	int arr[n];
+	for(i = 0; i < n; i++)
+	{
+		cout<<"Enter element "<<i+1<<": ";
+		cin>>arr[i];
+	}
+	
+	CounterSort(arr, n, range, llimit);
+	
+	// Printing the sorted data.
+	cout<<"\nSorted Data ";
+	for (i = 0; i < n; i++)
+        	cout<<"->"<<arr[i];
+        
+	return 0;
+}
+
+
+Program Explanation:
+1. Take input of data, lower and upper limit of the range of the data.
+2. Call CounterSort() function with 'arr' the array of data and 'n' the number of values, range and lower limit in the argument list.
+3. Declare a counter array of size range and assign it to 0.
+4. Count occurrence by incrementing value-llimit index for each value.
+5. Store data values back onto the array.
+6. Return to main and display the result.
+7. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the number of data element to be sorted: 20
+
+Enter the lower and upper limit of the data to be entered: 20 50
+Enter element 1: 22
+Enter element 2: 29
+Enter element 3: 39
+Enter element 4: 49
+Enter element 5: 48
+Enter element 6: 44
+Enter element 7: 22
+Enter element 8: 33
+Enter element 9: 35
+Enter element 10: 33
+Enter element 11: 35
+Enter element 12: 24
+Enter element 13: 29
+Enter element 14: 22
+Enter element 15: 33
+Enter element 16: 44
+Enter element 17: 27
+Enter element 18: 49
+Enter element 19: 44
+Enter element 20: 22
+
+Sorted Data ->22->22->22->22->24->27->29->29->33->33->33->35->35->39->44->44->44->48->49->49

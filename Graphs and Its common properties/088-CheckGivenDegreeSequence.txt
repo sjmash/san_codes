@@ -1,0 +1,138 @@
+This is a C++ program to check if any graph is possible to be constructed for a given degree sequence.
+
+Problem Description:
+1. This algorithm checks whether a undirected graph can be generated from a given degree sequence.
+2. The graph should not have a self-edge and multiple edges.
+3. The time complexity of this algorithm is O(v*v).
+
+Problem Solution:
+1. This algorithm takes the input of the number of vertexes and their corresponding degree.
+2. It Checks various constraints and tries to build the graph.
+3. If it fails, no valid graph can be created from the given sequence.
+4. Exit.
+
+C++ Program/Source Code:
+// C++ Program to check if any graph is possible to be constructed for a given degree sequence.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<iomanip>
+
+using namespace std;
+
+// A function to print the adjacency matrix.
+void PrintMat(int mat[][20], int n)
+{
+	int i, j;
+	
+	cout<<"\n\n"<<setw(3)<<"       ";
+	for(i = 0; i < n; i++)
+		cout<<setw(3)<<"("<<i+1<<")";
+	cout<<"\n\n";
+	
+	// Print 1 if the corresponding vertexes are connected otherwise 0.
+	for(i = 0; i < n; i++)
+	{
+		cout<<setw(4)<<"("<<i+1<<")";
+		for(j = 0; j < n; j++)
+		{
+			cout<<setw(5)<<mat[i][j];
+		}
+		cout<<"\n\n";
+	}
+}
+
+int main()
+{
+	int NOV, i, j, AdjMat[20][20] = {0};
+	cout<<"Enter the number of vertex in the graph: ";
+	cin>>NOV;
+	
+	int degseq[NOV];
+	// Take input of the degree sequence.
+	for(i = 0; i < NOV; i++)
+	{
+		cout<<"Enter the degree of "<<i+1<<" vertex: ";
+		cin>>degseq[i];
+	}
+	
+	for(i = 0; i < NOV; i++)
+	{
+		for(j = i+1; j < NOV; j++)
+		{
+			// For each pair of vertex decrement the degree of both vertex.
+			if(degseq[i] > 0 && degseq[j] > 0)
+			{
+				degseq[i]--;
+				degseq[j]--;
+				AdjMat[i][j] = 1;
+				AdjMat[j][i] = 1;
+			}
+		}
+	}
+	
+	PrintMat(AdjMat, NOV);
+}
+
+Program Explanation:
+1. Take the input of the number of vertexes and their corresponding degree.
+2. Declare adjacency matrix, AdjMat[][] to store the graph.
+3. From the degseq[] array calculate the number of edges the given graph have and compare it with the maximum edges possible for the given 'NOV'.
+4. If graph has more edges, then print invalid and return from the main().
+5. Otherwise, try to create the graph, create the first loop to connect each vertex 'i'.
+6. Now, inside the loop, if the degree of vertex 'i' is more then 'NOV-i' then print invalid and return from the main().
+7. Otherwise, the current vertex is valid.
+8. So, in the second nested loop to connect the vertex 'i' to the every valid vertex 'j', next to it.
+9. If the degree of vertex 'i' and 'j' are more than zero then connect them.
+10. Print the adjacency matrix using PrintMat().
+11. Exit.
+
+Runtime Test Cases
+Case 1:
+Enter the number of vertex in the graph: 7
+Enter the degree of 1 vertex: 9
+Enter the degree of 2 vertex: 7
+Enter the degree of 3 vertex: 7
+Enter the degree of 4 vertex: 5
+Enter the degree of 5 vertex: 5
+Enter the degree of 6 vertex: 3
+Enter the degree of 7 vertex: 2
+
+No valid graph can be generated from the given degree sequence.
+
+Case 2:
+Enter the number of vertex in the graph: 5
+Enter the degree of 1 vertex: 7
+Enter the degree of 2 vertex: 7
+Enter the degree of 3 vertex: 6
+Enter the degree of 4 vertex: 6
+Enter the degree of 5 vertex: 5
+
+The Graph cannot have edges more than 10 for 5 vertexes.
+
+Case 3:
+Enter the number of vertex in the graph: 7
+Enter the degree of 1 vertex: 5
+Enter the degree of 2 vertex: 3
+Enter the degree of 3 vertex: 3
+Enter the degree of 4 vertex: 2
+Enter the degree of 5 vertex: 2
+Enter the degree of 6 vertex: 1
+Enter the degree of 7 vertex: 0
+
+Valid graph from the given degree sequence is:
+
+         (1)  (2)  (3)  (4)  (5)  (6)  (7)
+
+   (1)    0    1    1    1    1    1    0
+
+   (2)    1    0    1    1    0    0    0
+
+   (3)    1    1    0    0    1    0    0
+
+   (4)    1    1    0    0    0    0    0
+
+   (5)    1    0    1    0    0    0    0
+
+   (6)    1    0    0    0    0    0    0
+
+   (7)    0    0    0    0    0    0    0

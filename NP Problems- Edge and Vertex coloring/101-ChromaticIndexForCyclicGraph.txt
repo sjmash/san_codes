@@ -1,0 +1,170 @@
+This is a C++ program to find the chromatic index of cyclic graphs.
+
+Problem Description:
+1. This algorithm finds the chromatic index of the given cyclic graph.
+2. The chromatic index is the maximum number of color needed for the edge coloring of the given graph.
+
+Problem Solution:
+1. This algorithm takes the input of the number of vertexes and the number of edges in the graph.
+2. It takes the input of vertex pairs for the given number of edges.
+3. It assigns a color to edges without assigning the same color to two adjacent edges.
+4. It prints the number of colors used in edge coloring.
+5. Exit.
+
+C++ Program/Source Code:
+// C++ Program to find chromatic index of cyclic graphs.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+ #include<iostream>
+
+using namespace std;
+
+// A function to color edges of the graph.
+int EdgeColoring(int edge[][3], int e)
+{
+	int i, col, j, max = -1;
+	// Loop to assign a valid color to every edge 'i'.
+	for(i = 0; i < e; i++)
+	{
+		col = 1;
+		flag:
+		// Assign a color and then check its validity.
+		edge[i][2] = col;
+		for(j = 0; j < e; j++)
+		{
+			if(j == i)
+				continue;
+			
+			// Check the colors of the edges adjacent to the edge i.
+			if(edge[j][0] == edge[i][0] || edge[j][0] == edge[i][1] || edge[j][1] == edge[i][0] || edge[j][1] == edge[i][1])
+			{
+				// If the color matches then goto line 11 and assign next color to the edge and check again.
+				if(edge[j][2] == edge[i][2])
+				{
+					col++;
+					goto flag;
+				}
+			}
+		}
+	}
+	
+	// Find the coloring index and return it, to main.
+	for(i = 0; i < e; i++)
+	{
+		if(max < edge[i][2])
+			max = edge[i][2];
+	}
+	return max;
+}
+
+int main()
+{
+	int i, v, e, j, max = -1;
+	
+	// take the input of the number of vertex and edges.
+	cout<<"Enter the number of vertexes of the graph: ";
+	cin>>v;
+	cout<<"Enter the number of edges of the graph: ";
+	cin>>e;
+	int edge[e][3];
+	
+	// Take the input of the adjacent vertex pairs of the given graph.
+	for(i = 0; i < e; i++)
+	{
+		cout<<"\nEnter the vertex pair for edge "<<i+1;
+		cout<<"\nV(1): ";
+		cin>>edge[i][0];
+		cout<<"V(2): ";
+		cin>>edge[i][1];
+		
+		edge[i][2] = -1;
+	}
+		
+	// Print the chromatic index.
+	cout<<"\n\nThe chromatic index of the given graph is: "<<EdgeColoring(edge , e);
+	
+	// Print the edge color for the edges of the given graph.
+	for(i = 0; i < e; i++)
+		cout<<"\nThe color of the edge between vertex V(1):"<<edge[i][0]<<" and V(2):"<<edge[i][1]<<" is: color"<<edge[i][2]<<".";
+	
+	return 0;
+}
+
+Program Explanation:
+1. Take the input of the number of vertexes 'v' and number of edges 'e'.
+2. Take the input of 'e' vertex pairs for the 'e' edges in the graph in edge[][].
+3. Using EdgeColoring(), Color the graph edges.
+4. Inside EdgeColoring(), assign color to current edge as col i.e. 1 initially.
+5. If any of the adjacent edges have the same color then discard this color and go to flag again and try next color.
+6. Return to main and print the chromatic index of the cyclic graph.
+7. Print the color of each edge.
+8. Exit.
+
+Runtime Test Cases
+Case 1:
+Enter the number of vertexes of the cyclic graph: 5
+Enter the number of edges of the cyclic graph: 7
+
+Enter the vertex pair for edge 1
+V(1): 1
+V(2): 2
+
+Enter the vertex pair for edge 2
+V(1): 2
+V(2): 3
+
+Enter the vertex pair for edge 3
+V(1): 3
+V(2): 4
+
+Enter the vertex pair for edge 4
+V(1): 4
+V(2): 5
+
+Enter the vertex pair for edge 5
+V(1): 1
+V(2): 3
+
+Enter the vertex pair for edge 6
+V(1): 2
+V(2): 4
+
+Enter the vertex pair for edge 7
+V(1): 5
+V(2): 1
+
+
+The chromatic index of the given graph is: 4
+The color of the edge between vertex V(1):1 and V(2):2 is: color1.
+The color of the edge between vertex V(1):2 and V(2):3 is: color2.
+The color of the edge between vertex V(1):3 and V(2):4 is: color1.
+The color of the edge between vertex V(1):4 and V(2):5 is: color2.
+The color of the edge between vertex V(1):1 and V(2):3 is: color3.
+The color of the edge between vertex V(1):2 and V(2):4 is: color3.
+The color of the edge between vertex V(1):5 and V(2):1 is: color4.
+
+Case 2:
+Enter the number of vertexes of the cyclic graph: 4
+Enter the number of edges of the cyclic graph: 4
+
+Enter the vertex pair for edge 1
+V(1): 1
+V(2): 2
+
+Enter the vertex pair for edge 2
+V(1): 2
+V(2): 3
+
+Enter the vertex pair for edge 3
+V(1): 3
+V(2): 4
+
+Enter the vertex pair for edge 4
+V(1): 4
+V(2): 1
+
+
+The chromatic index of the given graph is: 2
+The color of the edge between vertex V(1):1 and V(2):2 is: color1.
+The color of the edge between vertex V(1):2 and V(2):3 is: color2.
+The color of the edge between vertex V(1):3 and V(2):4 is: color1.
+The color of the edge between vertex V(1):4 and V(2):1 is: color2.

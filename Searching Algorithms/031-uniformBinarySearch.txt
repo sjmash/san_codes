@@ -1,0 +1,138 @@
+C++ Program to implement Uniform Binary Search.
+
+Problem Description:
+1. Implement binary search using a lookup table.
+2. It is an improvement in binary search since table lookup is faster than a shift and addition.
+3. The time complexity is O(log(n)).
+
+Problem Solution:
+1. Implement the binary search on a sorted array.
+2. For the mid index value of any of the sub-array, instead of calculating refer lookup table.
+3. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to implement Uniform Binary Search.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function to create lookup array.
+void MakeDelta(int *delta, int N)
+{
+	int power = 1, i = 0;
+	do 
+	{
+		int half = power;
+		power *= 2;
+		delta[i] = (N+half)/power;
+        
+		i++;
+	}while (delta[i-1] != 0);
+}
+
+// A function implementing Uniform Binary search.
+int UniBinarySearch(int *a, int *del, int key)
+{
+    int i = del[0]-1, d = 0;
+
+	flag:
+	// If item found at mid index return to main.
+	if (key == a[i]) 
+		return i;
+	// If lookup table vlaue is 0 then no more sub-part of array remain to search hence element not found.
+	else if (del[d] == 0)
+		return -1;
+	else 
+	{
+		// Shift to left subpart using lookup array 'del'.
+		if (key < a[i]) 
+		{
+			i -= del[++d];
+			goto flag;
+		}
+		// Shift to right subpart using lookup array 'del'.
+		else
+		{
+			i += del[++d];
+			goto flag;
+		}
+	}
+}
+
+int main(void)
+{
+	int i, n = 20,d = 0, pow = 1, index;
+	char ch;
+	int a[20] = {1, 2, 5, 8, 10, 12, 14, 15, 17, 19, 43, 65, 67, 71, 75, 79, 83, 90, 94, 99};
+    
+	// Determine the size of delta array.
+    	while(pow <= n)
+    	{
+    		pow *=2;
+    		d++;
+	}
+    
+	int del[d];
+	// Create lookup array.
+	MakeDelta(del, n);
+    
+	up:
+	cout<<"\nEnter the Element to be searched: ";
+	cin>>n;
+	// Implement Uniform Binary search and get index value.
+	index = UniBinarySearch(a, del, n);
+	
+	if(index == -1)
+		cout<<"\nItem not found";
+	else
+		cout<<"\nItem "<<n<<" found at "<<index+1<<" position";
+	
+	// Ask user to enter choice for further searching.
+	cout<<"\n\n\tDo you want to search more...enter choice(y/n)?";
+	cin>>ch;
+	if(ch == 'y' || ch == 'Y')
+		goto up;
+	
+	return 0;
+}
+Program Explanation:
+1. Assign the data to the array in a sorted manner.
+2. Calculate the maximum length of lookup array and declare a new array 'del'.
+3. Assign the values to the lookup array as n/2, n/4 and so on till '0', where n is the length of the data array.
+4. Call UniBinarySearch() function.
+5. Assign mid to the value at '0' index of 'del' array and compare key to the value at mid index.
+6. If the key is equal then return the index value to the main.
+7. If index value in 'del' is zero then the element is not there, return -1 to main.
+8. If lesser, subtract next value stored in 'del' array and shift the pointer to next value in 'del' array.
+9. If greater, add next value stored in 'del' array and shift the pointer to next value in 'del' array.
+10. print the index value returned by the function and ask for user's choice to search more.
+10. Exit.
+
+Runtime Test Cases:
+Case 1:
+
+Enter the Element to be searched: 19
+
+Item 19 found at 10 position
+
+        Do you want to search more...enter choice(y/n)?y
+
+Enter the Element to be searched: 99
+
+Item 99 found at 20 position
+
+        Do you want to search more...enter choice(y/n)?y
+
+Enter the Element to be searched: 94
+
+Item 94 found at 19 position
+
+        Do you want to search more...enter choice(y/n)?y
+
+Enter the Element to be searched: 3
+
+Item not found
+
+        Do you want to search more...enter choice(y/n)?n

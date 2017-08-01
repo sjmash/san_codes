@@ -1,0 +1,132 @@
+This is a C++ program to generate random partition out of a given set of numbers or characters.
+
+Problem Description:
+1. This algorithm generates a random partition of the given set of characters or integers.
+2. The time complexity of this algorithm is O(n).
+
+Problem Solution:
+1. This algorithm takes the input of a set of integers or characters.
+2. It firstly generates the random partition of the length of the set.
+3. Then starting from the beginning, it prints the number of element from the beginning, mentioned in the partition.
+4. Exit.
+
+C++ Program/Source Code:
+// C++ Program to generate random partition out of a given set of numbers or characters.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<stdlib.h>
+#include<string.h>
+
+using namespace std;
+
+int main()
+{
+	int n, i, j, l, ch;
+	
+	// Enter choice.
+	cout<<"Enter 1 for string and 2 for integer array to generate array: ";
+	cin>>ch;
+	
+	if(ch == 1)
+	{
+		char str[100];
+		cout<<"Enter the string: ";
+		cin>>str;
+		
+		n = strlen(str);
+		
+		cout<<"\nThe random partition of the given string is: \n";
+		// Generate the random partition.
+		l = 0;
+		while(n > 0)
+		{
+			// Generate a random number from 1 to n.
+			cout<<"\t{ ";
+			i = rand()%n + 1;
+			// Reduce the given number by i.
+			n = n-i;
+			// Print the first i characters from the 'l' counter.
+			for(j = 0; j < i; j++)
+			{
+				cout<<str[l]<<" ";
+				l++;
+			}
+			
+			cout<<"}";
+		}
+	}
+	else
+	{
+		cout<<"\nEnter the number of element in the integer array: ";
+		cin>>n;
+		int arr[n];
+	
+		cout<<"\nEnter the elements of the array: \n";
+		for(i = 0; i < n; i++)
+		{
+			cout<<"Enter "<<i+1<<" element: ";
+			cin>>arr[i];
+		}
+	
+		cout<<"\nThe random partition of the given array is: \n";
+		// Generate the random partition.
+		l = 0;
+		while(n > 0)
+		{
+			// Generate a random number from 1 to n.
+			cout<<"\t{ ";
+			i = rand()%n + 1;
+			// Reduce the given number by i.
+			n = n-i;
+			// Print the first i numbers from the 'l' counter.
+			for(j = 0; j < i; j++)
+			{
+				cout<<arr[l]<<" ";
+				l++;
+			}
+			cout<<"}";
+		}
+	}
+	return 0;
+}
+
+Program Explanation:
+1. Take the input of user's choice, either 1 for processing string and 2 for an integer array.
+2. If the choice is 1, then take the input of a string in str[].
+2. Calculate the length of the string and assign l to '0', it will traverse the string to print the characters.
+3. Generate random integer partition of the length of the string.
+4. For each partition 'i', print next 'i' characters from index value 'l'. 
+5. Otherwise, take the input of the 'n' integer array.
+6. Assign l to '0', it will traverse the array to print the numbers.
+7. Generate random integer partition of 'n'.
+8. For each partition 'i', print next 'i' integer from index value 'l'. 
+9. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter 1 for string and 2 for integer array to generate array: 2
+
+Enter the number of element in the integer array: 10
+
+Enter the elements of the array:
+Enter 1 element: 0
+Enter 2 element: 1
+Enter 3 element: 2
+Enter 4 element: 3
+Enter 5 element: 4
+Enter 6 element: 5
+Enter 7 element: 6
+Enter 8 element: 7
+Enter 9 element: 8
+Enter 10 element: 9
+
+The random partition of the given array is:
+        { 0 1 } { 2 3 4 5 }     { 6 7 8 }       { 9 }
+
+		
+Case 2:
+Enter 1 for string and 2 for integer array to generate array: 1
+Enter the string: abcdefghijklmnopqrstuvwxyz
+
+The random partition of the given string is:
+        { a b c d e f g h i j k l m n o p }     { q r s t u v w x }     { y }   { z }

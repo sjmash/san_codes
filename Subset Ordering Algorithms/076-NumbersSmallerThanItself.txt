@@ -1,0 +1,104 @@
+This is a C++ program to find the number of ways to write a number as the sum of numbers smaller than itself.
+
+Problem Description:
+1. This algorithm counts the partition of the given number.
+2. There is no straight method to count a total number of the partition so we need to generate and count them.
+3. The time complexity of this algorithm is O(n!).
+
+Problem Solution:
+1. This algorithm takes the input of a number 'n'.
+2. It starts with the number and breaks it by removing 1, at a time..
+3. As it generates a new partition increase the counter.
+4. Print the result.
+5. Exit.
+
+C++ Program/Source Code:
+// C++ Program to find the number of ways to write a number as the sum of numbers smaller than itself.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function to count all the possible partition.
+int CountPartitions(int n)
+{
+    int p[n], k = 0, count = -1;
+	p[k] = n;
+	
+    // Loop until all the array elements converted to 1 mean no further partition can be generated.
+    while(1)
+    {
+        count++;
+        int rem_val = 0;
+        
+        // Move the pointer to the index so that p[k] > 1.
+        while (k >= 0 && p[k] == 1)
+        {
+            rem_val += p[k];
+			k--;
+        }
+        // If k < 0 then the all the element are broken down to 1.
+        if (k < 0)  
+            return count;
+            
+        // If value greater than 1 is found then decrease it by 1 and increase rem_val to add it to other elements.
+        p[k]--;
+        rem_val++;
+        
+        // Loop until the number of 1's are greater than the value at k index.
+        while (rem_val > p[k])
+        {
+            p[k+1] = p[k];
+            // Decrease the rem_val value.
+            rem_val = rem_val - p[k];
+            k++;
+        }
+        
+        // Assign the remaining value to the index next to k.
+        p[k+1] = rem_val;
+        k++;
+    }
+}
+
+int main()
+{
+    int n, c;
+    cout<<"Enter natural numbers for partition counting: ";
+	cin>>n;
+	if (n <= 0)
+	{
+		cout<<"Wrong input!!";
+		return 0;
+	}
+	
+	c = CountPartitions(n);
+	cout<<"The number of partitions of with each element lesser than "<<n<<" is:- "<<c;
+    
+    return 0;
+}
+
+Program Explanation:
+1. Take the input of the natural number 'n'.
+2. Call CountPartitions() with 'n' in the argument list.
+3. Inside CountPartitions(), declare an array p[] of length 'n' since we can generate maximum n partition, an element k to traverse in the array p[], a counter variable and rem_val.
+4. Assign n to the first element of array p[], k to 0 and counter variable to -1.
+5. Now inside increment counter and assign rem_val to 0, initially.
+6. At the end of each iteration k Shifts to the end of the array to move it back to the first value encountered as greater than 0 and meanwhile add up all 1's to rem_val.
+7. If k reaches to -1 then breaks the loop and return to main.
+8. To break value at k, decrement it and add it to rem_val.
+9. So in the next loop, break rem_val till it is more than the value at index k, it will ignore the repetition.
+10. Return to main and print the result.
+11. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter natural numbers for partition counting: 10
+The number of partitions of with each element lesser than 10 is:- 41
+
+Case 2:
+Enter natural numbers for creating partitions: 50
+The number of partitions of with each element lesser than 50 is:- 204225
+
+Case 3:
+Enter natural numbers for partition counting: 100
+The number of partitions of with each element lesser than 100 is:- 190569291

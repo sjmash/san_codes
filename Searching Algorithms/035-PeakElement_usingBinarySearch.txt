@@ -1,0 +1,108 @@
+C++ Program to find the peak element of an array using Binary Search approach.
+
+Problem Description:
+1. Using binary search approach one of the peaks in the array can be found.
+2. It returns the first peak found as a result.
+3. The time complexity of the algorithm is O(log(n)).
+
+Problem Solution:
+1. Implement the binary search to find a peak in the array.
+2. If the middle element is more than its both neighbors, then it is the peak.
+3. Otherwise, split the array and check the same.
+4. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to find the peak element of an array using Binary Search approach.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function implementing Binary search approach to find a peak.
+int PeakSearch(int a[], int start, int end)
+{
+	int i, mid;
+	// Assigning middle of the array.
+	mid = (end+start+1)/2;
+	// If mid is at boundary index of the array sub-part, and higher than its only neighbor the mid is the peak of array. 
+	if((a[mid] > a[mid+1] && mid == start)||(a[mid] > a[mid-1] && mid == end))
+	{
+		return a[mid];
+	}
+	// If mid is higher than its neighbors then it is the peak element.
+	else if(a[mid] > a[mid-1] && a[mid] > a[mid+1])
+	{
+		return a[mid];
+	}
+	// If right neighbor is higher then right subpart must have a peak.
+	else if(a[mid] <= a[mid+1])
+	{
+		return PeakSearch(a, mid+1, end);
+	}
+	// If left neighbor is higher then left subpart must have a peak.
+	else if(a[mid] <= a[mid-1])
+	{
+		return PeakSearch(a, start,mid-1);
+	}
+}
+
+int main()
+{
+	int n, i, peak;
+	cout<<"\nEnter the number of data element: ";
+	cin>>n;
+	
+	int arr[n];
+	// Take data input.
+	for(i = 0; i < n; i++)
+	{
+		cout<<"Enter element "<<i+1<<": ";
+		cin>>arr[i];
+	}
+	
+	// Get the peak of the array.	
+	peak = PeakSearch(arr, 0, n-1);
+	
+	// Print the result.
+	cout<<"\nThe peak element of the given array is: "<<peak;
+        
+    return 0;
+}
+
+Program Explanation:
+1. Assign the data to the array.
+2. Call PeakSearch() function with 'arr' the array of data, start and end index in the argument list.
+3. Assign the mid of subpart of the array.
+4. Check if mid is at the boundary index and value at mid is higher than its neighbor then return mid as peak.
+5. Otherwise, check if the value at mid is greater than both of its neighbors then return mid as peak.
+6. Otherwise, check if the value at the right of mid is greater than mid then send second sub-part of the array into PeakSearch().
+7. Otherwise, check if the value at the left of mid is greater than mid then send first sub-part of the array into PeakSearch().
+8. Return to main and display the peak value.
+9. exit.
+
+Runtime Test Case:
+
+Enter the number of data element: 20
+Enter element 1: 3
+Enter element 2: 9
+Enter element 3: 16
+Enter element 4: 45
+Enter element 5: 91
+Enter element 6: 156
+Enter element 7: 984
+Enter element 8: 784
+Enter element 9: 653
+Enter element 10: 641
+Enter element 11: 599
+Enter element 12: 481
+Enter element 13: 411
+Enter element 14: 321
+Enter element 15: 222
+Enter element 16: 198
+Enter element 17: 47
+Enter element 18: 43
+Enter element 19: 22
+Enter element 20: 1
+
+The peak element of the given array is: 984

@@ -1,0 +1,124 @@
+This is a C++ program to permute all letters of an input string.
+
+Problem Description:
+1. This algorithm print the permutation of a string with all distinct characters.
+2. The time complexity of this algorithm is O(n!).
+
+Problem Solution:
+1. This algorithm takes the input of a string with all distinct characters N value.
+2. It places each character to every index by swapping values.
+3. After each completion calls again the between those indexes to regain the earlier stage.
+4. Exit.
+
+C++ Program/Source Code:
+
+// C++ Program to permute all letters of an input string.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<string.h>
+
+using namespace std;
+
+// A function to swap character values of the string using references.
+void swap (char *x, char *y)
+{
+	char temp;
+	temp = *x;
+	*x = *y;
+	*y = temp;
+}
+
+// A function to print permutation using recursion technique.
+void Permute(char *a, int i, int n) 
+{
+	int j; 
+	
+	if (i == n-1)
+		cout<<"\n"<<a;
+	else
+	{
+		for (j = i; j < n; j++)
+		{
+			// Swap the character at ith index with every other value to get all the possible permutations.
+			swap(a[i], a[j]);
+			Permute(a, i + 1, n);
+			swap(a[i], a[j]);
+		}
+	}
+}
+ 
+int main()
+{
+	char str[21];
+	int len, count = 1;
+	
+	cout<<"\nEnter a string: ";
+	cin>>str;
+	len = strlen(str);
+	
+	for (i = 0; i < N; i++)
+	{
+		count *= (i+1);
+	}
+	
+	// Print the permutation's count.
+	cout<<"\nThe number of permutations possible is: "<<count;
+	
+	// Call permute() function to print all the permutation.
+	Permute(str, 0, len);
+	
+	return 0;
+}
+
+Program Explanation:
+1. Take the string input from the user.
+2. Compute the factorial of the length of the string, which will be the total number of permutation possible.
+3. Call Permute(), with the string 'str', 'i' be the swap index and 'len' be the string length.
+4. In Permute(), if the swap index is equal to 'len-1' then print the string as a new permutation.
+5. Otherwise, swap every other character(use loop over j from i to n-1) after 'i' index with the character at ith value.
+6. Recursively call Permute() with incremented value of the swap index 'i'.
+7. Again swap character at the ith index to the character at the jth index to get the earlier state of the string.
+8. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter a string: abc
+
+The number of permutations possible is: 6
+
+        abc
+        acb
+        bac
+        bca
+        cba
+        cab
+		
+Case 2:
+Enter a string: abcd
+
+The number of permutations possible is: 24
+
+        abcd
+        abdc
+        acbd
+        acdb
+        adcb
+        adbc
+        bacd
+        badc
+        bcad
+        bcda
+        bdca
+        bdac
+        cbad
+        cbda
+        cabd
+        cadb
+        cdab
+        cdba
+        dbca
+        dbac
+        dcba
+        dcab
+        dacb
+        dabc

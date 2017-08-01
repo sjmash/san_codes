@@ -1,0 +1,184 @@
+C++ Program to find the number of occurrences of a given number using binary search approach.
+
+Problem Description:
+1. Implement binary search tree to find the number of occurrences of a given number.
+2. The worst case time complexity of Binary search is O(n) but for the average case, it is O(log(n)).
+
+Problem Solution:
+1. Construct binary search tree for the given unsorted data array and maintain an additional count variable.
+2. If any element is repeated then increase the count of that node.
+3. Proceed with the search by comparing an element to the data of the node and print the count of that particular data element.
+4. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to count the number of occurrences of a given number using binary search approach.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A structure representing a node of a tree.
+struct node
+{
+	int data;
+	int count;
+	node *left;
+	node *right;
+};
+
+// A function creating a new node of the tree and assigning the data.
+node* CreateNode(int data)
+{
+	node *newnode = new node;
+	newnode->data = data;
+	newnode->count = 1;
+	newnode->left = NULL;
+	newnode->right = NULL;
+	
+	return newnode;
+}
+
+// A function creating binary search tree.
+node* InsertIntoTree(node* root, int data)
+{
+	// Create node using data from argument list.
+	node *temp = CreateNode(data);
+	node *t = new node;
+	t = root;
+	
+	// If root is null, assign it to the node created.
+	if(root == NULL)
+		root = temp;
+	else	
+	{
+		// Find the position for the new node to be inserted.
+		while(t != NULL)
+		{
+			// If the new data is already there then just increase the counter.
+			if(t->data == data)
+			{
+				t->count++;
+				break;
+			}
+			else if(t->data < data )
+			{
+				if(t->right == NULL)
+				{
+					// If current node is NULL then insert the node.
+					t->right = temp;
+					break;
+				}
+				// Shift pointer to the left.
+				t = t->right;
+			}
+			else if(t->data > data)
+			{
+				if(t->left == NULL)
+				{
+					// If current node is NULL then insert the node.
+					t->left = temp;
+					break;
+				}
+				// Shift pointer to the left.	
+				t = t->left;
+			}
+		}
+	}
+	return root;
+}
+
+// A function to search item in a BST.
+void Search(node *root, int data)
+{
+	node *temp = new node;
+	temp = root;
+	// Run the loop until temp points to a NULL pointer or data element is found.
+	while(temp != NULL)
+	{
+		if(temp->data == data)
+		{
+			cout<<"\nData item "<<data<<" is present "<<temp->count<<" number of times.";
+			return;
+		}
+		// Shift pointer to left child.
+		else if(temp->data > data)
+			temp = temp->left;
+		// Shift pointer to right child.
+		else
+			temp = temp->right;
+	}
+	
+	cout<<"\n Data not found";
+	return;
+}
+
+
+int main()
+{
+	char ch;
+	int n, i, a[25] = {89, 53, 95, 1, 9, 67, 72, 66, 75, 89, 72, 89, 89, 53, 77, 18, 24, 35, 90, 38, 41, 49, 81, 27, 97};
+	node *root = new node;
+	root = NULL;
+	
+	// Construct the BST.
+	for(i = 0; i < 25; i++)
+		root = InsertIntoTree(root, a[i]);
+	
+	up:
+	cout<<"\nEnter the Element to be searched: ";
+	cin>>n;
+
+	Search(root, n);
+	
+	// Ask user to enter choice for further searching.
+	cout<<"\n\n\tDo you want to search more...enter choice(y/n)?";
+	cin>>ch;
+	if(ch == 'y' || ch == 'Y')
+	goto up;
+	
+	return 0;
+}
+
+Program Explanation:
+1. Construct binary search tree for the given unsorted data array by inserting data into tree one by one, using InsertIntoTree().
+2. In the node structure, maintain an additional count variable for each node.
+3. Inside InsertIntoTree(), compare the data with data part of the node.
+4. If this node is null, then insert the new node.
+5. If data = temp->data, increase the count of that particular node.
+6. If data < temp->data, move the temp pointer to the left child.
+7. If data > temp->data, move the temp pointer to the right child.
+8. Take the input of data to be searched in the BST.
+9. Starting from the root node, compare the data with data part of the node.
+10. If data < temp->data, move the temp pointer to the left child.
+11. If data > temp->data, move the temp pointer to the right child.
+12. If data = temp->data, print the item found and it's count and then, return to main.
+13. Else print data not found.
+14. Ask user if he wants to search more, if yes, repeat from 10.
+15. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the Element to be searched: 89
+
+Data item 89 is present 4 number of times.
+
+        Do you want to search more...enter choice(y/n)?y
+
+Enter the Element to be searched: 27
+
+Data item 27 is present 1 number of times.
+
+        Do you want to search more...enter choice(y/n)?y
+
+Enter the Element to be searched: 72
+
+Data item 72 is present 2 number of times.
+
+        Do you want to search more...enter choice(y/n)?y
+
+Enter the Element to be searched: 28
+
+ Data not found
+
+        Do you want to search more...enter choice(y/n)?n

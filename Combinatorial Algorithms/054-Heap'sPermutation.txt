@@ -1,0 +1,144 @@
+﻿This is a C++ to implement Heap’s Algorithm for the permutation of N numbers.
+
+Problem Description:
+1. This algorithm print the permutation using heap algorithm.
+2. The time complexity of this algorithm is O(n!).
+
+Problem Solution:
+1. This algorithm takes the input of 'N' distinct numbers.
+2. It fixes an element at the end of the array and permutes the remaining numbers.
+3. Exit.
+
+C++ Program/Source Code:
+
+// C++ Program to implement Heap’s Algorithm for permutation of N numbers
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<iomanip>
+
+using namespace std;
+
+// A function swapping values using references.
+void swap(int *x, int *y)
+{
+	int temp;
+	temp = *x;
+	*x = *y;
+	*y = temp;
+}
+
+// A function to implement Heap’s Algorithm for the permutation of N numbers.
+void print(const int *v)
+{
+	int i;
+	int size = sizeof(v)/sizeof(int)+1;
+    
+	// Loop to print the sequence.
+	cout<<"\t";
+	for ( i = 0; i < size; i++)
+		cout<<setw(4)<<v[i];		
+	cout<<"\n";
+}
+void HeapPermute(int v[], int n)
+{
+	int i;
+	// Print the sequence if the heap top reaches to the 1.
+	if (n == 1)
+		print(v);
+	else
+	{
+		// Fix a number at the heap top until only two one element remaining and permute remaining.
+		for (i = 0; i < n; i++)
+		{
+			HeapPermute(v, n-1);
+			// If odd then swap the value at the start index with the n-1.
+			if(n%2 == 1)
+				swap(&v[0], &v[n-1]);
+			// If even then swap the value at the 'i' index with the n-1.
+			else
+				swap(&v[i], &v[n-1]);
+		}
+	}
+}
+
+int main()
+{
+	int  i, n, count = 1;
+	cout<<"How many numbers do you want to enter: ";
+	cin>>n;
+	int num[n];
+	
+	// Take the input.
+	cout<<"\nEnter the numbers: ";
+	for (i = 0; i < n; i++)
+	{
+		cin>>num[i];
+		count *= (i+1);
+	}
+	
+	// Print the permutation's count.
+	cout<<"\nThe number of permutations possible is: "<<count<<"\n";
+	
+	// Calling Function to print all the permutation.
+	HeapPermute(num, n);
+	return 0;
+}
+
+Program Explanation:
+1. Take the input of 'n' element of the array.
+2. Compute the factorial of 'n', which will be the total number of permutation possible.
+3. Call HeapPermute(), with array 'num', 'n' be the number of element remained to permute.
+4. In HeapPermute(), recursively call HeapPermute() with decremented value of 'n'.
+5. If n equals to 1 then a complete permutation is generated so print it.
+6. Otherwise, swap values according to n value to be even or odd.
+7. Exit.
+
+Runtime Test Cases:
+Case 1:
+How many numbers you want to enter: 3
+
+Enter the numbers: 1
+9
+4
+
+The number of permutations possible is: 6
+           1   9   4
+           9   1   4
+           4   1   9
+           1   4   9
+           9   4   1
+           4   9   1
+		
+Case 2:
+How many numbers you want to enter: 4
+
+Enter the numbers: 11
+23
+95
+31
+
+The number of permutations possible is: 24
+          11  23  95
+          23  11  95
+          95  11  23
+          11  95  23
+          23  95  11
+          95  23  11
+          31  23  95
+          23  31  95
+          95  31  23
+          31  95  23
+          23  95  31
+          95  23  31
+          31  11  95
+          11  31  95
+          95  31  11
+          31  95  11
+          11  95  31
+          95  11  31
+          31  11  23
+          11  31  23
+          23  31  11
+          31  23  11
+          11  23  31
+          23  11  31

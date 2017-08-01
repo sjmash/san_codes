@@ -1,0 +1,227 @@
+This is a C++ program to sort the given data using Merge Sort using linked list.
+
+Problem Description:
+1. Merge-sort is based on an algorithmic design pattern called divide-and-conquer. 
+2. It forms tree structure.
+3. The height of the tree will be log(n).
+4. we merge n element at every level of the tree.
+5. The time complexity of this algorithm is O(n*log(n)).
+
+Problem Solution:
+1. Split the data into two equal half until we get at most one element in both half.
+2. Merge Both into one making sure the resulting sequence is sorted.
+3. Recursively split them and merge on the basis of constraint given in step 1.
+4. Display the result.
+5. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to implement Merge sort using linked list.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A structure representing a node of a linked list.
+struct node
+{
+	int data;
+	node *next;
+};
+
+// A function creating a new node.
+node* NewNode(int d)
+{
+	struct node *temp = new node;
+	temp->data = d;
+	temp->next = NULL;
+	// Returning temp as the new node.
+	return temp;
+}
+
+// A function adding the given data at the end of the linked list.
+node* AddToList(node *tail, int data)
+{
+	struct node *newnode;
+	newnode = NewNode(data);
+	
+	if(tail == NULL)
+	{
+		tail = newnode;
+	}
+	// If tail is not null assign newnode to the next of tail.
+	else
+	{
+		tail->next = newnode;
+		// Shift tail pointer to the added node.
+		tail = tail->next;
+	}
+	
+	return tail;
+}
+
+node* Merge(node* h1, node* h2)
+{
+	node *t1 = new node;
+	node *t2 = new node;
+	node *temp = new node;
+	
+	// Return if the first list is empty.
+	if(h1 == NULL)
+		return h2;
+	
+	// Return if the Second list is empty.
+	if(h2 == NULL)
+		return h1;
+
+	t1 = h1;
+	
+	// A loop to traverse the second list, to merge the nodes to h1 in sorted way.
+	while (h2 != NULL)
+	{
+		// Taking head node of second list as t2.
+		t2 = h2;
+		
+		// Shifting second list head to the next.
+		h2 = h2->next;
+		t2->next = NULL;
+		
+		// If the data value is lesser than the head of first list add that node at the beginning.
+		if(h1->data > t2->data)
+		{
+			t2->next = h1;
+			h1 = t2;
+			t1 = h1;
+			continue;
+		}
+		
+		// Traverse the first list.
+		flag:
+		if(t1->next == NULL)
+		{
+			t1->next = t2;
+			t1 = t1->next;
+		}
+		// Traverse first list until t2->data more than node's data.
+		else if((t1->next)->data <= t2->data)
+		{
+			t1 = t1->next;
+			goto flag;
+		}
+		else
+		{
+			// Insert the node as t2->data is lesser than the next node.
+			temp = t1->next;
+			t1->next = t2;
+			t2->next = temp;
+		}
+	}
+
+	// Return the head of new sorted list.
+	return h1;
+}
+
+
+// A function implementing Merge Sort on linked list using reference.
+void MergeSort(node **head)
+{
+	node *first = new node;
+	node *second = new node;
+	node *temp = new node;
+	first = *head;
+	temp = *head;
+	
+	// Return if list have less than two nodes.
+	if(first == NULL || first->next == NULL)
+	{
+		return;
+	}
+	else
+	{
+		// Break the list into two half as first and second as head of list.
+		while(first->next != NULL)
+		{
+			first = first->next;
+			if(first->next != NULL)
+			{
+				temp = temp->next;
+				first = first->next;
+			}
+		}
+		second = temp->next;
+		temp->next = NULL;
+		first = *head;
+	}
+
+	// Implementing divide and conquer approach.
+	MergeSort(&first);
+	MergeSort(&second);
+	
+	// Merge the two part of the list into a sorted one.      
+	*head = Merge(first, second);
+}
+
+int main()
+{
+	int n, i, num;
+	struct node *head = new node;
+	struct node *tail = new node;
+	head = NULL;
+	tail = NULL;
+	cout<<"\nEnter the number of data element to be sorted: ";
+	cin>>n;
+	
+	
+	// Create linked list.
+	for(i = 0; i < n; i++)
+	{
+		cout<<"Enter element "<<i+1<<": ";
+		cin>>num;
+		
+		tail = AddToList(tail, num);
+		if(head == NULL)
+			head = tail;
+	}
+	
+	// Send reference of head into MergeSort().
+	MergeSort(&head);
+	
+	// Printing the sorted data.
+	cout<<"\nSorted Data ";
+    
+	while(head != NULL) 
+	{
+		cout<<".."<<head->data;
+		head=head->next;
+	}
+	return 0;	
+}
+
+
+Program Explanation:
+1. Take input of data and create a linked list.
+2. Call MergeSort() function with reference of head pointer in the argument list.
+3. Recursively split the linked into two equal parts.
+4. Split them until we get at most one element in both halves.
+5. Combine lists into one linked list by invoking Merge() with the head of both the halves in the argument list.
+6. Inside Merge(), take each of the nodes of the second list and insert it into the first list, according to the data part of the node.
+7. Assign the head of the merged list to the head in MergeSort().
+8. Return to main and display the result.
+9. Exit.
+
+Runtime Test Cases:
+Case 1:
+
+Enter the number of data element to be sorted: 10
+Enter element 1: 3
+Enter element 2: 8
+Enter element 3: 9
+Enter element 4: 4
+Enter element 5: 5
+Enter element 6: 7
+Enter element 7: 6
+Enter element 8: 2
+Enter element 9: 0
+Enter element 10: 1
+
+Sorted Data ->0->1->2->3->4->5->6->7->8->9

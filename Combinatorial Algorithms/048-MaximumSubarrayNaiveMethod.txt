@@ -1,0 +1,90 @@
+C++ Program to find the maximum sub-array sum O(n^2) time(naive method).
+
+Problem Description:
+1. Implement the naive method to find the sub-array having a maximum sum.
+2. The worst case time complexity of the algorithm is O(n*n).
+
+Problem Solution:
+1. Take the input of the integer array.
+2. Compare the sum of elements of every sub-array of length 1 to n.
+3. Print the sub-array with maximum sum.
+4. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to find the maximum sub-array sum O(n^2) time(naive method).
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+int main()
+{
+	int n, i, j, max=-1, sum, imax, fmax;
+	cout<<"\nEnter the number of data element in the array: ";
+	cin>>n;
+	
+    int a[n];
+	for(i = 0; i < n; i++)
+	{
+		cout<<"Enter element "<<i+1<<": ";
+		cin>>a[i];
+	}
+	
+	// Loop for the length of the sub-array.
+	for(i = 1; i < n+1; i++)
+	{
+		sum = 0;
+		// Loop for the maximizing the sum of the element of the sub array of length 'i'.
+		for(j = 0; j < n; j++)
+		{
+			// First pick the first sub array of 'i' length.
+			if(j < i)
+				sum += a[j];
+			// Add the next element and subtract the first element from the sub-array.
+			else
+				sum = sum+a[j]-a[j-i];
+			
+			// Compare the sum with the global maximum of each length.
+			if(max < sum )
+			{
+				// Assign the initial and the final indexes to the imax and the fmax variables and update the max, if condition satisfies.
+				imax = j-i+1;
+				fmax = j;
+				max = sum;
+			}
+		}
+	}
+	
+	// Print the maximum sum sub-array and their sum.
+	cout<<"\nThe maximum sub array is: ";
+	for(i = imax; i <= fmax; i++)
+		cout<<a[i]<<" ";
+	cout<<"\nThe maximum sub-array sum is: "<<max;
+}
+
+Program Explanation:
+1. Take the input of the array of 'n' data element.
+2. A loop for the length of the sub-array from 1 to n.
+3. In another loop nested with the previous one, calculate the sum of first sub-array of that length.
+4. For remaining sub-array sum, add the next element to the sum and subtract the first element of that sub-array.
+5. Now compare it with the global max and update if found out to be more.
+6. Print the max sub-array and their sum as a result.
+7. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the number of data element in the array: 10
+Enter element 1: 2
+Enter element 2: 2
+Enter element 3: -5
+Enter element 4: 4
+Enter element 5: -5
+Enter element 6: -6
+Enter element 7: -7
+Enter element 8: 8
+Enter element 9: 8
+Enter element 10: -16
+
+The maximum sub-array is: 8 8
+The maximum sub-array sum is: 16

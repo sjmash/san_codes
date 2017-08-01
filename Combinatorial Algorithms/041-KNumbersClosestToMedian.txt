@@ -1,0 +1,193 @@
+This is a C++ Program to find k numbers closest to the median of S, Where S is a set of n numbers.
+
+Problem Description:
+1. We need to find k numbers which have a minimum difference with the median of the data set.
+2. It includes sorting using quick sort and then printing k numbers as a result.
+3. The time complexity will be O(n*log(n)+k).
+
+Problem Solution:
+1. Take input of the data.
+2. Sort the data using the quick-sort algorithm.
+3. Starting from the median index, using two variable moves towards the end of the array.
+4. compare each value to the median and print those which are closer to it.
+5. Repeat this k time printing the k numbers closest to the median.
+6. Exit.
+
+C++ Program/Source Code:
+// C++ program to find k numbers closest to median of S, Where S is a set of n numbers.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// Swapping two values.
+void swap(int *a, int *b)
+{
+	int temp; 
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+// Partitioning the array on the basis of values at high as pivot value.
+int Partition(int a[], int low, int high)
+{
+	int pivot, index, i;
+	index = low;
+	pivot = high;
+	
+	// Getting index of pivot.
+	for(i=low; i < high; i++)
+	{
+		if(a[i] < a[pivot])
+		{
+			swap(&a[i], &a[index]);
+			index++;
+		}
+	}
+	// Swapping value at high and at the index obtained.
+	swap(&a[pivot], &a[index]);
+	
+	return index;
+}
+
+// Implementing QuickSort algorithm.
+int QuickSort(int a[], int low, int high)
+{
+	int pindex;
+	if(low < high)
+	{
+		// Partitioning array using randomized pivot.
+		pindex = Partition(a, low, high);
+		// Recursively implementing QuickSort.
+		QuickSort(a, low, pindex-1);
+		QuickSort(a, pindex+1, high);
+	}
+	return 0;
+}
+
+int main()
+{
+	int n, i, high, low, k;
+	double d1,d2, median;
+	cout<<"Enter the number of element in dataset: ";
+	cin>>n;
+	
+	int a[n];
+	// Taking input of the data set.
+	for(i = 0; i < n; i++)
+	{
+		cout<<"\nEnter "<<i+1<<"th element: ";
+		cin>>a[i];
+	}
+	
+	cout<<"\nEnter the number of element nearest to the median required: ";
+	cin>>k;
+	
+	// Sort the data.
+	QuickSort(a, 0, n-1);
+	
+	//Print the result.
+	cout<<"\tThe K element nearest to the median are: ";
+	// Check the number of data element to be even or odd and proceed accordingly.
+	if(n%2 == 1)
+	{
+		median = a[n/2];
+		high = n/2+1;
+		low = n/2;
+		
+		// Loop to search for the next element generating minimum difference from median.
+		while(k > 0)
+		{
+			// If difference from the first half element is minimum.
+			if((median-a[low] <= a[high]-median) && low >= 0)
+			{
+				cout<<" "<<a[low];
+				low--;
+				k--;
+			}
+			// If difference from the Second half element is minimum.
+			else if((median-a[low] > a[high]-median) && high <= n-1)
+			{
+				cout<<" "<<a[high];
+				high++;
+				k--;
+			}
+		}
+	}
+	else
+	{
+		// Need to use floating variable since the median can be in the fractional form.
+		d1 = a[n/2];
+		d2 = a[n/2-1];
+		median = (d1+d2)/2;
+		high = n/2;
+		low = n/2-1;
+		while(k > 0)
+		{
+			d1 = a[low];
+			d2 = a[high];
+			// If difference from the first half element is minimum.
+			if((median-d2 <= d1-median) && low >= 0)
+			{
+				cout<<" "<<a[low];
+				low--;
+				k--;
+			}
+			// If difference from the Second half element is minimum.
+			else if((median-d2 > d1-median) && high <= n-1)
+			{
+				cout<<" "<<a[high];
+				high++;
+				k--;
+			}
+		}
+	}
+	
+	return 0;
+}
+
+Program Explanation:
+1. Take input of the data.
+2. Call QuickSort() function to sort the data.
+3. Check if the number of the data element are odd then assign the middle index to low and the index next to it to high and calculate median.
+4. Run a loop for k times and print the element which his closer to the median.
+5. Otherwise, the number of the data element are even then the median will be an average of two middle values so, it can be fractional so use floating variable.
+6. Run a loop for k times and print the element which his closer to the median.
+7. Exit. 
+
+ 
+
+Runtime Test Cases:
+Case 1:
+Enter the number of element in dataset: 10
+
+Enter 1th element: 9
+Enter 2th element: 5
+Enter 3th element: 3
+Enter 4th element: 1
+Enter 5th element: 6
+Enter 6th element: 2
+Enter 7th element: 0
+Enter 8th element: 7
+Enter 9th element: 4
+Enter 10th element: 8
+
+Enter the number of element nearest to the median required: 4
+        The K element nearest to the median are:  4 5 3 6
+		
+Case 2:
+Enter the number of element in dataset: 9
+
+Enter 1th element: 6
+Enter 2th element: 2
+Enter 3th element: 8
+Enter 4th element: 3
+Enter 5th element: 1
+Enter 6th element: 7
+Enter 7th element: 5
+Enter 8th element: 4
+Enter 9th element: 9
+
+Enter the number of element nearest to the median required: 4
+        The K element nearest to the median are:  5 4 6 3

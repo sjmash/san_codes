@@ -1,0 +1,192 @@
+C++ Program to find the kth largest number from a given list using the Order-Statistic algorithm.
+
+Problem Description:
+1. Implements Order-Statistic tree.
+2. It is an improvement in BST by adding two more key functions- rank() and select().
+3. The time complexity of Order-statistic tree generation is O(n+n*log(n)).
+4. Once the tree is constructed, this algorithm takes O(log(n)) to find Kth largest number.
+
+Problem Solution:
+1. Construct Order-Statistic tree for the given unsorted data array.
+2. Using the select function get the kth largest number from the given data set.
+3. Print the result.
+4. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to find the ith largest number from a given list using Order-Statistic algorithm.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+static int count = 0;
+
+// A structure representing a node of a tree.
+struct node
+{
+	int data;
+	int rank;
+	node *left;
+	node *right;
+};
+
+// A function creating new node of tree and assigning the data.
+node* CreateNode(int data)
+{
+	node *newnode = new node;
+	newnode->data = data;
+	newnode->rank = 0;
+	newnode->left = NULL;
+	newnode->right = NULL;
+	
+	return newnode;
+}
+
+// A function to create binary search tree.
+node* Insert(node* root, int data)
+{
+	// Create node using data from argument list.
+	node *temp = CreateNode(data);
+	node *t = new node;
+	t = root;
+	
+	// If root is null, assign it to the node created.
+	if(root == NULL)
+		root = temp;
+	else	
+	{	
+		// Find the position for the new node to be inserted.
+		while(t != NULL)
+		{	
+			if(t->data < data )
+			{
+				if(t->right == NULL)
+				{
+					// If current node is NULL then insert the node.
+					t->right = temp;
+					break;
+				}
+				// Shift pointer to the left.
+				t = t->right;
+			}
+
+			else if(t->data > data)
+			{
+				if(t->left == NULL)
+				{
+					// If current node is NULL then insert the node.
+					t->left = temp;
+					break;
+				}
+				// Shift pointer to the left.	
+				t = t->left;
+			}
+		}
+	}
+	return root;
+}
+
+// A function to assign a rank to each node of the tree.
+void AssignRank(node *root)
+{
+	if(root->left != NULL)
+		AssignRank(root->left);
+	
+	root->rank = count;
+	count++;
+	
+	if(root->right != NULL)
+		AssignRank(root->right);
+}
+
+// A function to search Kth smallest element from the data stored in the tree.
+int Select(node* root, int k)
+{
+	// Search for the entered rank and shift the pointer accordingly, if rank not matched.
+	if(root->rank == k)
+		return root->data;
+	else if(root->rank > k)
+		return Select(root->left, k);
+	else
+		return Select(root->right, k);
+}
+
+// A function to take an inorder traversal of the tree and print the tree data of each node.
+void print(node *root)
+{
+	if(root->left != NULL)
+		print(root->left);
+	
+	cout<<"\n data: "<<root->data<<"    rank: "<<root->rank;
+	
+	if(root->right != NULL)
+		print(root->right);
+}
+
+int main()
+{
+	char ch;
+	int n, i, k, a[20]={40, 53, 95, 1, 9, 67, 72, 66, 75, 77, 18, 24, 35, 90, 38, 41, 49, 81, 27, 97};
+	node *root = new node;
+	root = NULL;
+	
+	// Construct the BST.
+	for(i = 0; i < 20; i++)
+		root = Insert(root, a[i]);
+	
+	cout<<"Enter the k value: ";
+	cin>>k;
+		
+	// Assign rank to each of the nodes of the Binary Search tree.
+	AssignRank(root);
+	
+	// Inorder traversal of the tree and displaying the data and the rank corresponding to that data.
+	cout<<"\nRank associated to each node:-";
+	print(root);
+	
+	// Print the result.
+	cout<<"\n\nThe kth Largest element is: "<<Select(root, 20-k);
+	
+	return 0;
+}
+
+Program Explanation:
+1. Construct Order-Statistic tree for the given unsorted data array by inserting data into tree one by one.
+2. Using insert(), it will create a binary search tree where the rank of each node is zero initially.
+3. traverse the tree inorder and assign the rank using a static integer variable.
+4. For kth largest number use select() with the root of the tree and N-k in its argument list.
+5. Inside select(), a temporary variable traverses the tree and compares N-k to the rank of the current node.
+6. If found to be equal, return to main and display the result.
+7. If it is greater then shift the temporary variable to the right child.
+8. If it is smaller then shift the temporary variable to the left child.
+9. After returning to main display the result.
+10. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the k value: 6
+
+Rank associated to each node:-
+ data: 1    rank: 0
+ data: 9    rank: 1
+ data: 18    rank: 2
+ data: 24    rank: 3
+ data: 27    rank: 4
+ data: 35    rank: 5
+ data: 38    rank: 6
+ data: 40    rank: 7
+ data: 41    rank: 8
+ data: 49    rank: 9
+ data: 53    rank: 10
+ data: 66    rank: 11
+ data: 67    rank: 12
+ data: 72    rank: 13
+ data: 75    rank: 14
+ data: 77    rank: 15
+ data: 81    rank: 16
+ data: 90    rank: 17
+ data: 95    rank: 18
+ data: 97    rank: 19
+
+The kth Largest element is: 75

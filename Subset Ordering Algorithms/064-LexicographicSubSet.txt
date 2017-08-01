@@ -1,0 +1,158 @@
+This is a C++ program to generate all subsets of a given set in the lexicographic order.
+
+Problem Description:
+1. This algorithm print all the possible combination of each length from the given array in increasing order.
+2. The time complexity of this algorithm is O(n*(2^n)).
+
+Problem Solution:
+1. This algorithm takes the input of 'n' data element and prints all possible combination.
+2. For that, it sorts the input array and maintains a boolean array 'n'.
+3. If the corresponding boolean value is true, then it prints that element.
+4. Exit.
+
+C++ Program/Source Code:
+// C++ Program to generate all subsets of a given set in the lexicographic order.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function to sort the data set.
+void Sort(int a[], int n)
+{
+	int i, j, temp;
+	
+	for(i = 0; i < n; i++)
+	{
+		for(j = i+1; j < n; j++)
+		{
+			if(a[i] > a[j])
+			{
+				temp = a[i];
+				a[i] = a[j];
+				a[j] = temp;
+			}
+		}
+	}
+}
+
+// A function to print all combination of a given length from the given array.
+void GenSubset(int a[], int reqLen, int start, int currLen, bool check[], int len) 
+{
+	// Return if the currLen is more than the required length.
+	if(currLen > reqLen)
+	return;
+	// If currLen is equal to required length then print the sequence.
+	else if (currLen == reqLen) 
+	{
+		cout<<"\t";
+		cout<<"{ ";
+		for (int i = 0; i < len; i++) 
+		{
+			if (check[i] == true) 
+			{
+				cout<<a[i]<<" ";
+			}
+		}
+		cout<<"}\n";
+		return;
+	}
+	// If start equals to len then return since no further element left.
+	if (start == len) 
+	{
+		return;
+	}
+	// For every index we have two options.
+	// First is, we select it, means put true in check[] and increment currLen and start.
+	check[start] = true;
+	GenSubset(a, reqLen, start + 1, currLen + 1, check, len);
+	// Second is, we don't select it, means put false in check[] and only start incremented.
+	check[start] = false;
+	GenSubset(a, reqLen, start + 1, currLen, check, len);
+}
+}
+
+int main()
+{
+	int i, n;
+	bool check[n];
+	cout<<"Enter the number of element array have: ";
+	cin>>n;
+	
+	int arr[n];
+	cout<<"\n";
+	
+	// Take the input of the array.
+	for(i = 0; i < n; i++)
+	{
+		cout<<"Enter "<<i+1<<" element: ";
+		cin>>arr[i];
+		check[i] = false;
+	}
+	
+	// Sort the array.
+	Sort(arr, n);
+	
+	cout<<"\nThe subset in the lexicographic order: \n";
+	cout<<"\t{ }\n";
+	for(i = 1; i <= n; i++)
+	{
+		GenSubset(arr, i, 0, 0, check, n);
+	}
+	return 0;
+}
+
+Program Explanation:
+1. Take the input of an array of 'n' data element.
+2. Assign the boolean array to false initially.
+3. Sort the array.
+4. For each length 'i' call the Combination() function.
+5. In Combination(), if currLen is more than the reqLen then return.
+6. Otherwise, if currLen is equal to reqLen then there will be a new sequence generated, print it.
+7. There will be two option either proceed with a start as 'true' and recursively call Combination() with incremented value of 'currLen' and 'start'.
+8. Or proceed with a start as 'false' and recursively call Combination() with incremented value of 'start'.
+9. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the number of element array have: 5
+
+Enter 1 element: 6
+Enter 2 element: 8
+Enter 3 element: 3
+Enter 4 element: 4
+Enter 5 element: 9
+
+The subset in the lexicographic order:
+        { }
+        { 3 }
+        { 4 }
+        { 6 }
+        { 8 }
+        { 9 }
+        { 3 4 }
+        { 3 6 }
+        { 3 8 }
+        { 3 9 }
+        { 4 6 }
+        { 4 8 }
+        { 4 9 }
+        { 6 8 }
+        { 6 9 }
+        { 8 9 }
+        { 3 4 6 }
+        { 3 4 8 }
+        { 3 4 9 }
+        { 3 6 8 }
+        { 3 6 9 }
+        { 3 8 9 }
+        { 4 6 8 }
+        { 4 6 9 }
+        { 4 8 9 }
+        { 6 8 9 }
+        { 3 4 6 8 }
+        { 3 4 6 9 }
+        { 3 4 8 9 }
+        { 3 6 8 9 }
+        { 4 6 8 9 }
+        { 3 4 6 8 9 }

@@ -1,0 +1,160 @@
+This is a C++ program to implement the binary counting method to generate subsets of a set.
+
+Problem Description:
+1. This algorithm print all the possible combination of each length from the given array using binary counting method.
+2. The time complexity of this algorithm is O(n*(2^n)).
+
+Problem Solution:
+1. This algorithm takes the input of 'n' data element and prints all possible combination.
+2. For that, it generates n bit binary number from 0 to 2^n.
+3. For each number, it prints an unique combination.
+4. Exit.
+
+C++ Program/Source Code:
+// C++ Program to implement the binary counting method to generate subsets of a set.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<math.h>
+
+using namespace std;
+
+// A function to print array element according to the code in the argument list.
+void print(char code[], int arr[], int n)
+{
+	int i;
+	cout<<"\t{ ";
+	for(i = 0; i < n; i++)
+	{
+		// Print if the corresponding value is '1'.
+		if(code[i] == '1')
+			cout<<arr[i]<<" ";
+	}
+	cout<<"}\n";
+}
+
+// A function to generate subset by binary counting.
+int BinaryCounting(int arr[], int n)
+{
+	int r, i, l;
+	char binary[] = "0000";
+	r = pow(2, n);
+	
+	for(i = 0; i < r; i++)
+	{
+		print(binary, arr, n);
+		l=n-1;
+		
+		// Incrementing the binary value with each iteration.
+		h:
+		if(binary[l] == '0')
+			binary[l] = '1';
+		else
+		{
+			binary[l] = '0';
+			l--;
+			goto h;
+		}
+	}
+}
+
+int main()
+{
+	int i, n;
+	cout<<"\nEnter the number of element array have: ";
+	cin>>n;
+	
+	int arr[n];
+	cout<<"\n";
+	
+	// Take the input of the array.
+	for(i = 0; i < n; i++)
+	{
+		cout<<"Enter "<<i+1<<" element: ";
+		cin>>arr[i];
+	}
+	
+	// Print the subset using binary counting method.
+	cout<<"\nThe subset in the binary counting method: \n";
+	BinaryCounting(arr, n);
+	
+	return 0;
+}
+Program Explanation:
+1. Take the input of an array of 'n' data element.
+2. Call BinaryCounting() function with data array and n in the argument list.
+3. Inside BinaryCounting(), Calculate the total subset as 'r=pow(2,n)'.
+4. Generate numbers from 0 to r-1 in binary.
+5. For each binary string of n character, call print().
+6. Inside print(), print the element of the array if the binary string has '1' at the same index of the array element.
+7. Return to main.
+8. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the number of element array have: 4
+
+Enter 1 element: 1
+Enter 2 element: 2
+Enter 3 element: 3
+Enter 4 element: 4
+
+The subset in the gray code order:
+        { }
+        { 4 }
+        { 3 4 }
+        { 3 }
+        { 2 3 }
+        { 2 3 4 }
+        { 2 4 }
+        { 2 }
+        { 1 2 }
+        { 1 2 4 }
+        { 1 2 3 4 }
+        { 1 2 3 }
+        { 1 3 }
+        { 1 3 4 }
+        { 1 4 }
+        { 1 }
+	
+Case 2:
+Enter the number of element array have: 5
+
+Enter 1 element: 5
+Enter 2 element: 4
+Enter 3 element: 3
+Enter 4 element: 2
+Enter 5 element: 1
+
+The subset in the gray code order:
+        { }
+        { 1 }
+        { 2 1 }
+        { 2 }
+        { 3 2 }
+        { 3 2 1 }
+        { 3 1 }
+        { 3 }
+        { 4 3 }
+        { 4 3 1 }
+        { 4 3 2 1 }
+        { 4 3 2 }
+        { 4 2 }
+        { 4 2 1 }
+        { 4 1 }
+        { 4 }
+        { 5 4 }
+        { 5 4 1 }
+        { 5 4 2 1 }
+        { 5 4 2 }
+        { 5 4 3 2 }
+        { 5 4 3 2 1 }
+        { 5 4 3 1 }
+        { 5 4 3 }
+        { 5 3 }
+        { 5 3 1 }
+        { 5 3 2 1 }
+        { 5 3 2 }
+        { 5 2 }
+        { 5 2 1 }
+        { 5 1 }
+        { 5 }

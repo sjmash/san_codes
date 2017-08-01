@@ -1,0 +1,191 @@
+This is a C++ Program find the median of elements where elements are stored in 2 different arrays.
+
+Problem Description:
+1. We need to find combined median of two different data set.
+2. It includes sorting of both arrays using quick sort and then printing the median by simultaneously traversing both arrays.
+3. The time complexity will be O(n*log(n)+m*log(m)+m+n).
+
+Problem Solution:
+1. Take input of both the data set of length m and n respectively.
+2. Sort the data sets using the quick-sort algorithm.
+3. Calculate the median, considering both arrays as a single array.
+4. Exit.
+
+C++ Program/Source Code:
+// C++ program to find median of elements where elements are stored in 2 different arrays.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// Swapping two values.
+void swap(int *a, int *b)
+{
+	int temp; 
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+// Partitioning the array on the basis of values at high as pivot value.
+int Partition(int a[], int low, int high)
+{
+	int pivot, index, i;
+	index = low;
+	pivot = high;
+	
+	// Getting index of pivot.
+	for(i=low; i < high; i++)
+	{
+		if(a[i] < a[pivot])
+		{
+			swap(&a[i], &a[index]);
+			index++;
+		}
+	}
+	// Swapping value at high and at the index obtained.
+	swap(&a[pivot], &a[index]);
+	
+	return index;
+}
+
+// Implementing QuickSort algorithm.
+int QuickSort(int a[], int low, int high)
+{
+	int pindex;
+	if(low < high)
+	{
+		// Partitioning array using randomized pivot.
+		pindex = Partition(a, low, high);
+		// Recursively implementing QuickSort.
+		QuickSort(a, low, pindex-1);
+		QuickSort(a, pindex+1, high);
+	}
+	return 0;
+}
+
+int main()
+{
+	int n, m, bi, ai, i, k;
+	double median;
+	cout<<"Enter the number of element in the first data set: ";
+	cin>>n;
+	
+	int a[n];
+	// Take input of first sequence.
+	for(i = 0; i < n; i++)
+	{
+		cout<<"Enter "<<i+1<<"th element: ";
+		cin>>a[i];
+	}
+	
+	cout<<"\nEnter the number of element in the second data set: ";
+	cin>>m;
+	
+	int b[m];
+	// Take input of second sequence.
+	for(i = 0; i < m; i++)
+	{
+		cout<<"Enter "<<i+1<<"th element: ";
+		cin>>b[i];
+	}
+	
+	// Sort the data of both arrays.
+	QuickSort(a, 0, n-1);
+	QuickSort(b, 0, m-1);
+	
+	//Print the result.
+	cout<<"\tThe Median from these data set is: ";
+	ai = 0;
+	bi = 0;
+	// If the m+n is odd then one median will be there otherwise average of two will be taken as median.
+	if((m+n)%2 == 1)
+	{
+		// K is the number of element present upto the median from the beginning of the data array.
+		k =(n+m)/2+1;
+		while(k > 0)
+		{
+			// Compare current element of array 'a' and 'b' and skip next the smaller one.
+			if(a[ai] <= b[bi] && ai < n)
+			{
+				k--;
+				// Print if we have skipped k element.
+				if(k == 0)
+					cout<<a[ai];
+				ai++;
+			}
+			else if(a[ai] > b[bi] && bi < m)
+			{
+				k--;
+				// Print if we have skipped k element.
+				if(k == 0)
+					cout<<b[bi];
+				bi++;
+			}
+		}
+	}
+	else
+	{	
+		k = (n+m)/2+1;
+		while(k > 0)
+		{
+			// Compare current element of array 'a' and 'b' and skip next the smaller one.
+			if(a[ai] <= b[bi] && ai < n)
+			{
+				k--;
+				// Add the last two numbers so as we can calculate average.
+				if(k <= 1)
+					median += a[ai];
+				ai++;
+			}
+			else if(a[ai] > b[bi] && bi < m)
+			{
+				k--;
+				// Add the last two numbers so as we can calculate average.
+				if(k <= 1)
+					median += b[bi];
+				bi++;
+			}
+		}
+		// Take average.
+		cout<<median/2;
+	}
+}
+
+Program Explanation:
+1. Take input of the first data set in the array 'a' of length 'n' and the second data set as 'b' of length 'm'.
+2. Call QuickSort() function to sort both the data set.
+3. Check if m+n is odd, then assign k as '(m+n)/2 + 1' and skip first m+n smallest element from both arrays to reach the combined median. 
+4. Otherwise, m+n is even, then assign k as '(m+n)/2 + 1' and skip first m+n-1 smallest element from both arrays.
+5. Take the average of next two smallest elements as the combined average. 
+6. Print the median.
+7. Exit. 
+
+ 
+
+Runtime Test Cases:
+Case 1:
+Enter the number of element in the first data set: 10
+Enter 1th element: 16
+Enter 2th element: 19
+Enter 3th element: 20
+Enter 4th element: 17
+Enter 5th element: 18
+Enter 6th element: 9
+Enter 7th element: 6
+Enter 8th element: 8
+Enter 9th element: 7
+Enter 10th element: 10
+
+Enter the number of element in the second data set: 10
+Enter 1th element: 0
+Enter 2th element: 2
+Enter 3th element: 5
+Enter 4th element: 4
+Enter 5th element: 3
+Enter 6th element: 15
+Enter 7th element: 11
+Enter 8th element: 13
+Enter 9th element: 14
+Enter 10th element: 12
+        The Median from these data set is: 10.5

@@ -1,0 +1,50 @@
+C++ Program to find the minimum element of an array using Linear Search approach.
+
+Problem Description:
+1. Search the minimum element with time complexity O(n).
+
+Problem Solution:
+1. Compare the element at the beginning with another array element sequentially.
+2. Swap values if the element at the beginning is larger than the other element.
+3. This value will be the minimum value among the given data.
+4. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to find the minimum element of an array using Linear Search approach.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+int main()
+{
+	int n, i, min, a[30]={89, 53, 95, 12, 9, 67, 72, 66, 75, 77, 18, 24, 35, 90, 38, 41, 49, 81, 27, 97, 111, 116, 854, 234, 658, 546, 987, 268, 946, 852};
+	char ch;
+	min = a[0];
+	cout<<"\nThe data element of array:";
+
+	for(i = 1; i < 30; i++)
+	{
+		cout<<" "<<a[i];
+		// Assign min to the current element if its value is lesser than min value.
+		if(min > a[i])
+			min = a[i];
+	}
+	cout<<"\n\nMinimum of the data elements of array using linear search is: "<<min;
+
+    return 0;	
+}
+
+Program Explanation:
+1. Assign the data element to an array.
+2. Assign the value at '0' index to min variable.
+3. Compare min with other data element sequentially.
+4. Swap values if min value is more then the value at that particular index of the array.
+5. Display the minimum value.
+6. exit.
+
+Runtime Test Case:
+The data element of array: 89 53 95 12 9 67 72 66 75 77 18 24 35 90 38 41 49 81 27 97 111 116 854 234 658 546 987 268 946 852
+
+Minimum of the data elements of array using linear search is: 9

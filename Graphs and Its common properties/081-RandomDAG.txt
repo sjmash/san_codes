@@ -1,0 +1,168 @@
+This is a C++ program to generate a random DAG(Directed Acyclic Graph) for a given number of edges.
+
+Problem Description:
+1. This algorithm generates a random directed acyclic graph for the given edges 'e'.
+2. The time complexity of this algorithm is O(e*v*e).
+
+Problem Solution:
+1. This algorithm takes the input of the number of edges 'e' in the random DAG.
+2. It connects two random vertexes and checks for any cycle generated due to this edge.
+3. If yes discard this edge and generate random vertex pair again.
+4. Exit.
+
+C++ Program/Source Code:
+// C++ Program to generate a random DAG (Directed Acyclic Graph) for a given number of edges.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<stdlib.h>
+
+// The maximum number of the vertex for the sample random graph.
+#define NOV 20
+
+using namespace std;
+
+// A function to check for the cycle, on addition of a new edge in the random graph.
+bool CheckAcyclic(int edge[][2], int ed, bool check[], int v)
+{
+	int i;
+	bool value;
+	// If the current vertex is visited already, then the graph contains cycle.
+	if(check[v] == true)
+	{
+		return false;
+	}
+	else
+	{
+		check[v] = true;
+		// For each vertex, go for all the vertex connected to it.
+		for(i = ed; i >= 0; i--)
+		{
+			if(edge[i][0] == v)
+			{
+				return CheckAcyclic(edge, ed, check, edge[i][1]);
+			}
+		}
+	}
+	// In case, if the path ends then reassign the vertexes visited in that path to false again.
+	check[v] = false;
+	
+	if(i == 0)
+		return true;
+}
+
+// A function to generate random graph.
+void GenerateRandGraphs(int e)
+{
+	int i, j, edge[e][2], count;
+	
+	bool check[21];
+	
+	// Build a connection between two random vertex.
+	i = 0;
+	while(i < e)
+	{
+		edge[i][0] = rand()%NOV+1;
+		edge[i][1] = rand()%NOV+1;
+		
+		for(j = 1; j <= 20; j++)check[j] = false;
+		
+		if(CheckAcyclic(edge, i, check, edge[i][0]) == true)
+			i++;
+	}
+	
+	// Print the random graph.
+	cout<<"\nThe generated random random graph is: ";
+	for(i = 0; i < NOV; i++)
+	{
+		count = 0;
+		cout<<"\n\t"<<i+1<<"-> { ";
+		for(j = 0; j < e; j++)
+		{
+			if(edge[j][0] == i+1)
+			{
+				cout<<edge[j][1]<<"  ";
+				count++;
+			}
+			else if(edge[j][1] == i+1)
+			{
+				count++;
+			}
+			else if(j == e-1 && count == 0)
+				cout<<"Isolated Vertex!";
+		}
+		cout<<" }";
+	}	
+}
+
+
+int main()
+{
+	int e;
+	
+	cout<<"Enter the number of edges for the random graphs: ";
+	cin>>e;
+	
+	// A function to generate a random undirected graph with e edges.
+	GenerateRandGraphs(e);
+}
+
+Program Explanation:
+1. Take the input of the number of edges for the random graph.
+2. Call GenerateRandGraphs(), with 'e' as the number edges in the argument list.
+3. Inside GenerateRandGraphs(), generate a connection between two random numbers, for sample a small case, limit the number of vertex to 20.
+4. Using CheckAcyclic(), check for the cycle in the graph, if it returns false discard this edge.
+5. Otherwise, maitain the edge in the graph.
+6. Print all the directed connection of each vertex.
+7. If the in+out degree of each vertex is zero then print the vertex as "isolated vertex".
+8. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the number of edges for the random graphs: 10
+
+The generated random random graph is:
+        1-> {  }
+        2-> { 8  8  12   }
+        3-> { 5  14   }
+        4-> { Isolated Vertex! }
+        5-> {  }
+        6-> { Isolated Vertex! }
+        7-> { Isolated Vertex! }
+        8-> { 17   }
+        9-> { Isolated Vertex! }
+        10-> { 5   }
+        11-> { Isolated Vertex! }
+        12-> { 5   }
+        13-> { Isolated Vertex! }
+        14-> {  }
+        15-> { 1   }
+        16-> { 3   }
+        17-> {  }
+        18-> { Isolated Vertex! }
+        19-> { Isolated Vertex! }
+        20-> { Isolated Vertex! }
+		
+Case 2:
+Enter the number of edges for the random graphs: 50
+
+The generated random random graph is:
+        1-> { 3   }
+        2-> { 8  8  12  17  12  6   }
+        3-> { 5  14  14  18   }
+        4-> { 12  2   }
+        5-> { 9  15  20  11  13   }
+        6-> {  }
+        7-> { 6  2  17   }
+        8-> { 17  7  20  5   }
+        9-> { 7   }
+        10-> { 5  13  19  4  2   }
+        11-> { 3  10   }
+        12-> { 5  19  9   }
+        13-> { 3   }
+        14-> { 5  9  9  16  7   }
+        15-> { 1   }
+        16-> { 3  15   }
+        17-> { 16  1   }
+        18-> { 20   }
+        19-> { 16  3   }
+        20-> {  }

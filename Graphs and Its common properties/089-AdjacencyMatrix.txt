@@ -1,0 +1,117 @@
+This is a C++ program to represent graph using adjacency matrix.
+
+Problem Description:
+1. This algorithm represents a graph using adjacency matrix.
+2. This method of representing graphs is not efficient.
+3. The time complexity of this algorithm is O(v*v).
+
+Problem Solution:
+1. This algorithm takes the input of the number of vertex.
+2. For each pair of vertex ask user whether they are connected or not.
+3. Print the adjacency matrix.
+4. Exit.
+
+C++ Program/Source Code:
+// C++ program to represent graph using adjacency matrix.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<iomanip>
+
+using namespace std;
+
+// A function to print the adjacency matrix.
+void PrintMat(int mat[][20], int n)
+{
+	int i, j;
+	
+	cout<<"\n\n"<<setw(4)<<"";
+	for(i = 0; i < n; i++)
+		cout<<setw(3)<<"("<<i+1<<")";
+	cout<<"\n\n";
+	
+	// Print 1 if the corresponding vertexes are connected otherwise 0.
+	for(i = 0; i < n; i++)
+	{
+		cout<<setw(3)<<"("<<i+1<<")";
+		for(j = 0; j < n; j++)
+		{
+			cout<<setw(4)<<mat[i][j];
+		}
+		cout<<"\n\n";
+	}
+}
+
+int main()
+{
+	int i, j, v;
+	
+	cout<<"Enter the number of vertexes: ";
+	cin>>v;
+	
+	int  mat[20][20];
+	
+	cout<<"\n";
+	// Take input of the adjacency of each pair of vertexes.
+	for(i = 0; i < v; i++)
+	{
+		for(j = i; j < v; j++)
+		{
+			if(i != j)
+			{
+				cout<<"Enter 1 if the vertex "<<i+1<<" is adjacent to "<<j+1<<", otherwise 0: ";
+				cin>>mat[i][j];
+				
+				mat[j][i] = mat[i][j];
+			}
+			else
+				mat[i][j] = 0;
+		}
+	}
+	
+	PrintMat(mat, v);
+}
+
+Program Explanation:
+1. Take the input of the number of vertex in the graph.
+2. For each pair of vertex, ask user, if vertex 'i' is connected to vertex 'j'.
+3. If yes, then store 1 in the matrix.
+4. Using PrintMat(), print the adjacency matrix.
+5. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the number of vertexes: 4
+
+Enter 1 if the vertex 1 is adjacent to 2, otherwise 0: 1
+Enter 1 if the vertex 1 is adjacent to 3, otherwise 0: 0
+Enter 1 if the vertex 1 is adjacent to 4, otherwise 0: 1
+Enter 1 if the vertex 2 is adjacent to 3, otherwise 0: 0
+Enter 1 if the vertex 2 is adjacent to 4, otherwise 0: 1
+Enter 1 if the vertex 3 is adjacent to 4, otherwise 0: 0
+
+
+      (1)  (2)  (3)  (4)
+
+  (1)   0   1   0   1
+
+  (2)   1   0   0   1
+
+  (3)   0   0   0   0
+
+  (4)   1   1   0   0
+  
+Case 2:
+Enter the number of vertexes: 3
+
+Enter 1 if the vertex 1 is adjacent to 2, otherwise 0: 1
+Enter 1 if the vertex 1 is adjacent to 3, otherwise 0: 0
+Enter 1 if the vertex 2 is adjacent to 3, otherwise 0: 1
+
+
+      (1)  (2)  (3)
+
+  (1)   0   1   0
+
+  (2)   1   0   1
+
+  (3)   0   1   0

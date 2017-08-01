@@ -1,0 +1,66 @@
+This is a C++ program to compute combinations using recurrence relation for nCr.
+
+Problem Description:
+1. This algorithm prints a total number of combination possible for given n and r value.
+2. The time complexity of this algorithm is O(r).
+
+Problem Solution:
+1. This algorithm takes the input of n and r value.
+2. Print the result using recurrence relation.
+3. Exit.
+
+C++ Program/Source Code:
+
+// C++ Program to compute combinations using recurrence relation for nCr.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function to calculate combination using recurrence relation.
+float CalcCombination(float n, float r)
+{
+	int i, res;
+	if(r > 0)
+		return (n/r)*CalcCombination(n-1,r-1);
+	else 
+		return 1;
+}
+
+int main()
+{
+	float n, r;
+	int result;
+	cout<<"A program to find combination from nCr format";
+	cout<<"\n\n\tEnter the value of n: ";
+	cin>>n;
+	cout<<"\tEnter the value of r: ";
+	cin>>r;
+	
+	// Get result using recurrence relation.
+	result = CalcCombination(n,r);
+	cout<<"\nThe number of possible combinations is: "<<result;
+}
+
+Program Explanation:
+1. Take the input of n and r in floating type.
+2. Using CalcCombination(), calculate (n/r)*CalcCombination(n-1,r-1) recursively.
+3. return to main and print the result in an integer type.
+4. Exit.
+
+Runtime Test Cases:
+Case 1:
+A program to find combination from nCr format using ( n! / (r! * (n-r)!))
+
+        Enter the value of n: 5
+        Enter the value of r: 3
+
+The number of possible combinations is: 10
+		
+Case 2:
+A program to find combination from nCr format using ( n! / (r! * (n-r)!))
+
+        Enter the value of n: 13
+        Enter the value of r: 4
+
+The number of possible combinations is: 221

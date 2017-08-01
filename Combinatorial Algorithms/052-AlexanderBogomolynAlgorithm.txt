@@ -1,0 +1,134 @@
+﻿This is a C++ program to implement the Alexander Bogomolyn’s Unordered Permutation algorithm for elements from 1 to N.
+
+Problem Description:
+1. The Alexander Bogomolyn's algorithm is to permute first 'N' natural numbers.
+2. The time complexity of this algorithm is O(n!).
+
+Problem Solution:
+1. This algorithm takes N value.
+2. It initializes the value current level and permutes the remaining values to the higher levels.
+3. As the assigning action of the values reaches to the highest level, it prints the permutation obtained.
+4. Exit.
+
+C++ Program/Source Code:
+
+// C++ Program to implement the Alexander Bogomolyn’s algorithm.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<iomanip>
+
+using namespace std;
+
+// A function to print the permutation.
+void print(const int *v, const int size)
+{
+	int i;
+	// Print the array if it is non-empty.
+	if (v != 0) 
+	{
+    		for ( i = 0; i < size; i++)
+		{
+			cout<<setw(4)<<v[i];
+		}
+		cout<<"\n";
+	}
+}
+
+// A function implementing Alexander Bogomolyn algorithm.
+void AlexanderBogomolyn(int *Value, int N, int k)
+{
+	static int level = -1;
+	int i;
+	// Assign level to zero at start.
+	level = level+1; 
+	Value[k] = level;
+	
+	if (level == N)
+		print(Value, N);
+	else
+		for (i = 0; i < N; i++)
+		// Assign values to the array if it is zero.
+			if (Value[i] == 0)
+				AlexanderBogomolyn(Value, N, i);
+    
+	// Decrement the level after all possible permutation after that level.	
+	level = level-1;
+	Value[k] = 0;
+}
+
+int main()
+{
+	int i, N, count = 1;
+	cout<<"Enter the N value to permute first N natural numbers: ";
+	cin>>N;
+	int Value[N];
+    
+	for (i = 0; i < N; i++)
+	{
+		Value[i] = 0;
+		count *= (i+1);
+	}
+	
+	// Print the permutation's count.
+	cout<<"\nThe number of permutations possible is: "<<count;
+	
+	// Print the permutation.
+	cout<<"\n\nPermutation using Alexander Bogomolyn's algorithm: \n";
+	AlexanderBogomolyn(Value, N, 0);
+	
+	return 0;
+}
+
+Program Explanation:
+1. Take the N value from the user.
+2. Compute the factorial which will be the total number of permutation for that N value.
+3. Call AlexanderBogomolyn(), with array V[], N and K be the current index of the array.
+4. Inside the function, a static integer variable level will be defining the array level to be modified to generate the permutation.
+5. As the level value reaches the highest value 'N' then print the array as the generated permutation.
+6. Likewise, print all the permutation.
+6. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the N value to permute first N natural numbers: 3
+
+The number of permutations possible is: 6
+
+Permutation using Alexander Bogomolyn's algorithm:
+   1   2   3
+   1   3   2
+   2   1   3
+   3   1   2
+   2   3   1
+   3   2   1
+
+Case 2:
+Enter the N value to permute first N natural numbers: 4
+
+The number of permutations possible is: 24
+
+Permutation using Alexander Bogomolyn's algorithm:
+   1   2   3   4
+   1   2   4   3
+   1   3   2   4
+   1   4   2   3
+   1   3   4   2
+   1   4   3   2
+   2   1   3   4
+   2   1   4   3
+   3   1   2   4
+   4   1   2   3
+   3   1   4   2
+   4   1   3   2
+   2   3   1   4
+   2   4   1   3
+   3   2   1   4
+   4   2   1   3
+   3   4   1   2
+   4   3   1   2
+   2   3   4   1
+   2   4   3   1
+   3   2   4   1
+   4   2   3   1
+   3   4   2   1
+   4   3   2   1

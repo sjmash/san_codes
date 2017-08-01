@@ -1,0 +1,187 @@
+This is a C++ program to perform edge coloring to the line graph of an input graph.
+
+Problem Description:
+1. This algorithm performs edge coloring to the line graph of an input graph.
+2. A line graph can be generated from the given graph by assuming edge as vertex and vertex as edges between the vertex to form line graph.
+
+Problem Solution:
+1. This algorithm takes the input of the number of vertexes and the number of edges in the graph.
+2. It takes the input of vertex pairs for the given number of edges.
+3. It generates a line graph for the given graph.
+3. Then for the generated line graph, it assigns a color to edges without assigning the same color to two adjacent edges.
+4. Exit.
+
+C++ Program/Source Code:
+// C++ Program to perform edge coloring to the line graph of an input graph.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+ #include<iostream>
+
+using namespace std;
+
+// A function to generate line graph from a given graph.
+int GenerateLineGraph(int edge[][2], char LineEdge[][3], int e)
+{
+	int i, count = 0, j, NOV;
+	char ch;
+	// Loop to assign a valid color to every edge 'i'.
+	for(i = 0; i < e; i++)
+	{
+		for(j = i+1; j < e; j++)
+		{
+			// Check the colors of the edges adjacent to the edge i.
+			if(edge[j][0] == edge[i][0] || edge[j][0] == edge[i][1] || edge[j][1] == edge[i][0] || edge[j][1] == edge[i][1])
+			{
+				LineEdge[count][0] = 'a'+i;
+				LineEdge[count][1] = 'a'+j;
+				LineEdge[count][2] = 0;
+				count++;
+			}
+		}
+	}
+	NOV = count;
+	
+	// Print the adjacency list representation of the graph.
+	cout<<"\n\nThe adjacency list representation for the given graph: ";
+	for(i = 0; i < e; i++)
+	{
+		count = 0;
+		// For each vertex print, its adjacent vertex.
+		ch = 'a'+i;
+		cout<<"\n\t"<<ch<<"-> { ";
+		for(j = 0; j < NOV; j++)
+		{
+			if(LineEdge[j][0] == i+'a')
+			{
+				cout<<LineEdge[j][1]<<"  ";
+				count++;
+			}
+			else if(LineEdge[j][1] == i+'a')
+			{
+				cout<<LineEdge[j][0]<<"  ";
+				count++;
+			}
+			else if(j == e-1 && count == 0)
+				cout<<"Isolated Vertex!";
+		}
+		cout<<" }";
+	}
+	return NOV;
+}
+
+// A function to color edges of the graph.
+void EdgeColoring(char edge[][3], int e)
+{
+	int i, col, j;
+	// Loop to assign a valid color to every edge 'i'.
+	for(i = 0; i < e; i++)
+	{
+		col = 1;
+		flag:
+		// Assign a color and then check its validity.
+		edge[i][2] = col;
+		for(j = 0; j < e; j++)
+		{
+			if(j == i)
+				continue;
+			
+			// Check the colors of the edges adjacent to the edge i.
+			if(edge[j][0] == edge[i][0] || edge[j][0] == edge[i][1] || edge[j][1] == edge[i][0] || edge[j][1] == edge[i][1])
+			{
+				// If the color matches then goto line 11 and assign next color to the edge and check again.
+				if(edge[j][2] == edge[i][2])
+				{
+					col++;
+					goto flag;
+				}
+			}
+		}
+	}
+}
+
+int main()
+{
+	int i, v, e, j, max = -1;
+	char ch = 'a';
+	
+	// take the input of the number of vertex and edges.
+	cout<<"Enter the number of vertexes of the graph: ";
+	cin>>v;
+	cout<<"Enter the number of edges of the graph: ";
+	cin>>e;
+	
+	int edge[e][2];
+	char LineEdge[e*e][3];
+	
+	// Take the input of the adjacent vertex pairs of the given graph.
+	for(i = 0; i < e; i++)
+	{
+		cout<<"\nEnter the vertex pair for edge '"<<ch++<<"'";
+		cout<<"\nV(1): ";
+		cin>>edge[i][0];
+		cout<<"V(2): ";
+		cin>>edge[i][1];
+	}
+	
+	
+	// Generate line graph.
+	e = GenerateLineGraph(edge, LineEdge, e);
+	
+	// Color The line graph.
+	EdgeColoring(LineEdge , e);
+		
+	// Print the color of edges of line graph.
+	for(i = 0; i < e; i++)
+		cout<<"\nThe color of the edge between vertex V(1):"<<LineEdge[i][0]<<" and V(2):"<<LineEdge[i][1]<<" is: color"<<0+LineEdge[i][2]<<".";
+}
+
+Program Explanation:
+1. Take the input of the number of vertexes 'v' and number of edges 'e'.
+2. Denote vertex as numeric and edges as a character.
+3. Take the input of 'e' vertex pairs for the 'e' edges in the graph in edge[][].
+4. Using GenerateLineGraph(), construct a line graph in LineEdge[][].
+5. Inside GenerateLineGraph(), to construct line graph, for each edge in the given graph, connect it to its adjacent edge in LineEdge.
+6. Using EdgeColoring(), Color the graph edges of LineEdge[][] graph.
+7. Inside EdgeColoring(), assign color to current edge as col i.e. 1 initially.
+8. If any of the adjacent edges have the same color then discard this color and go to flag again and try next color.
+9. Return to main and print the color for each edge of the line graph.
+10. Exit.
+
+Runtime Test Cases
+Case 1:
+Enter the number of vertexes of the graph: 4
+Enter the number of edges of the graph: 5
+
+Enter the vertex pair for edge 'a'
+V(1): 1
+V(2): 2
+
+Enter the vertex pair for edge 'b'
+V(1): 2
+V(2): 3
+
+Enter the vertex pair for edge 'c'
+V(1): 3
+V(2): 4
+
+Enter the vertex pair for edge 'd'
+V(1): 4
+V(2): 1
+
+Enter the vertex pair for edge 'e'
+V(1): 1
+V(2): 3
+
+The adjacency list representation for the given graph:
+        a-> { b  d  e   }
+        b-> { a  c  e   }
+        c-> { b  d  e   }
+        d-> { a  c  e   }
+        e-> { a  b  c  d   }
+The color of the edge between vertex V(1):a and V(2):b is: color1.
+The color of the edge between vertex V(1):a and V(2):d is: color2.
+The color of the edge between vertex V(1):a and V(2):e is: color3.
+The color of the edge between vertex V(1):b and V(2):c is: color2.
+The color of the edge between vertex V(1):b and V(2):e is: color4.
+The color of the edge between vertex V(1):c and V(2):d is: color1.
+The color of the edge between vertex V(1):c and V(2):e is: color5.
+The color of the edge between vertex V(1):d and V(2):e is: color6.

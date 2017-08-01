@@ -1,0 +1,120 @@
+C++ Program to perform Searching Based on Locality of Reference.
+
+Problem Description:
+1. Searching based on Locality of Reference and also called Principle of locality.
+2. According to this principle, depending on the memory access pattern data elements are reallocated.
+3. In general search, 80% time only specific 20% of data is accessed.
+4. The sequential searching approach is used.
+5. The time complexity of search is O(n).
+
+Problem Solution:
+1. Assign data element to the array.
+2. Sequentially search the element in the array.
+3. If element found, delete it from the array and add at the beginning of the array.
+4. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to perform Searching Based on Locality of Reference.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function to perform linear search.
+int Search(int *a, int n, int item)
+{
+	int i,j;
+	for(i = 0; i < n; i++)
+	{
+		// Linearly search for the item.
+		if(item == a[i])
+		{
+			cout<<"The element "<<item<<" found at "<<i<<" index.";
+			// Break if the item is found.
+			break;
+		}
+		// If index reaches to the end then the item is not there. 
+		if(i == n-1)
+		{
+			cout<<"\nThe element not found.";
+			return -1;
+		}
+	}
+	
+	// Shift each element before matched item.
+	for(j = i; j > 0; j--)
+		a[j] = a[j-1];
+	
+	// Put the recently searched item at the beginning of the data array.
+	a[0] = item;
+	return 0;
+}
+
+int main()
+{
+	int i, n, a[20]={89, 53, 95, 1, 9, 67, 72, 66, 75, 77, 18, 24, 35, 90, 38, 41, 49, 81, 27, 97};
+	char ch;
+	// Initial status of the data array.
+	cout<<"\nThe status of the array: ";
+	for(i = 0; i < 20; i++)
+		cout<<a[i]<<" ";
+	
+	up:
+	cout<<"\nEnter the Element to be searched: ";
+	cin>>n;
+	
+	// Print the updated data array.
+	if(Search(a, 20, n) != -1)
+	{
+		cout<<"\nThe status of the array after this search: ";
+		for(i = 0; i < 20; i++)
+			cout<<a[i]<<" ";
+	}
+	
+	// Ask user to enter choice for further searching.
+	cout<<"\n\n\tDo you want to search more...enter choice(y/n)?";
+	cin>>ch;
+	if(ch == 'y' || ch == 'Y')
+		goto up;
+
+	return 0;
+}
+
+
+Program Explanation:
+1. Assign the data set to the array a[].
+2. Print the initial status of the array.
+3. Perform the search using Search().
+4. If item found then shift element before that index to one higher index.
+5. Copy the item at the beginning of the array.
+6. If it returns 0 then item found hence print the updated data array.
+7. Ask user for a choice, if he wants to search more.
+8. Exit.
+
+Runtime Test Cases:
+Case 1:
+The status of the array: 89 53 95 1 9 67 72 66 75 77 18 24 35 90 38 41 49 81 27 97
+Enter the Element to be searched: 97
+The element 97 found at 19 index.
+The status of the array after this search: 97 89 53 95 1 9 67 72 66 75 77 18 24 35 90 38 41 49 81 27
+
+        Do you want to search more...enter choice(y/n)?y
+
+Enter the Element to be searched: 24
+The element 24 found at 12 index.
+The status of the array after this search: 24 97 89 53 95 1 9 67 72 66 75 77 18 35 90 38 41 49 81 27
+
+        Do you want to search more...enter choice(y/n)?y
+
+Enter the Element to be searched: 38
+The element 38 found at 15 index.
+The status of the array after this search: 38 24 97 89 53 95 1 9 67 72 66 75 77 18 35 90 41 49 81 27
+
+        Do you want to search more...enter choice(y/n)?y
+
+Enter the Element to be searched: 97
+The element 97 found at 2 index.
+The status of the array after this search: 97 38 24 89 53 95 1 9 67 72 66 75 77 18 35 90 41 49 81 27
+
+        Do you want to search more...enter choice(y/n)?n

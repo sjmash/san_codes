@@ -1,0 +1,117 @@
+This is a C++ program to compute combinations using matrix multiplication.
+
+Problem Description:
+1. This algorithm computes the combination using matrix multiplication method.
+2. The time complexity to compute this is O(n*n*n).
+3. This algorithm is very expensive to compute a combination.
+
+Problem Solution:
+1. This algorithm computes the combination(nCr) for the input of n and r.
+2. It computes the factorial of n, (n-r) and r using matrix multiplication method.
+3. Exit.
+
+C++ Program/Source Code:
+// This is a C++ program to compute combinations using matrix multiplication.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function to find the factorial of a given number using matrix multiplication method.
+int MatFactorial(int n)
+{
+	int i, j, k, matA[n+1][n+1], matB[n+1][n+1], matC[n+1][n+1], count;
+	count = n;
+	// Assigning numbers from 1 to n to the super diagonal indexes of the matrix.
+	// Assigning result matric matC[][] to zero initially.
+	for(i = 0; i < n+1; i++)
+	{
+		for(j = 0; j < n+1; j++)
+		{
+			if(j == i+1)
+				matA[i][j] = i+1;
+			else
+				matA[i][j] = 0;
+			
+			// Assign matB[][] equal to initially to compute square.	
+			matB[i][j] = matA[i][j];
+			matC[i][j] = 0;	
+		}
+	}
+	
+	flag:
+	// Multiply matA[][] and matB[][] and store the data into matC[][].
+	for(i = 0; i < n+1; i++)
+	{
+		for(j = 0; j < n+1; j++)
+		{
+			for(k = 0; k < n+1; k++)
+			{
+				matC[i][j] += matA[i][k]*matB[k][j];
+			}	
+		}
+	}
+	
+	// Assign matB as the result matrix matC[][] and then assign matC[i][j] element to zero again.
+	for(i = 0; i < n+1; i++)
+	{
+		for(j = 0; j < n+1; j++)
+		{
+			matB[i][j] = matC[i][j];
+			matC[i][j] = 0;	
+		}
+	}
+	
+	count--;
+	// We need to compute the matA[][] raise to the power of n so if count is more than 1 then increase the power of matA[][].
+	if(count > 1)
+		goto flag;
+	
+	// If matA[][] raise to n is calculated, then return the last element of the first row of matB[][], as the factorial of n.	
+	return matB[0][n];
+}
+
+int main()
+{
+	int n, r,  result;
+	cout<<"A program to find combination from nCr format using matrix multiplication method:-";
+	cout<<"\n\n\tEnter the value of n: ";
+	cin>>n;
+	cout<<"\tEnter the value of r: ";
+	cin>>r;
+	
+	// Get result using formulae to calculate combinations.
+	result = MatFactorial(n)/(MatFactorial(r)*MatFactorial(n-r));
+	
+	cout<<"\nThe number of possible combinations is: "<<result;
+	
+	return 0;
+}
+
+Program Explanation:
+1. Take the input of input of n and r, to compute nCr.
+2. Using MatFactorial(), compute the factorial of n, r and (n-r).
+3. Inside MatFactorial(), for the factorial of n, declare three square matrices of order 'n+1'.
+4. Assign super diagonal element as 1 to n.
+5. Using matrix multiplication, raise the matrix to the power of n.
+6. In the result matrix, the last element of the first row will be factorial of n.
+7. Return factorial to main.
+8. Calculate result using 'MatFactorial(n)/(MatFactorial(r)*MatFactorial(n-r))' expression.
+9. Exit.
+
+Runtime Test Cases
+Case 1:
+A program to find combination from nCr format using matrix multiplication method:-
+
+        Enter the value of n: 5
+        Enter the value of r: 3
+
+The number of possible combinations is: 10
+
+Case 2:
+A program to find combination from nCr format using matrix multiplication method:-
+
+        Enter the value of n: 10
+        Enter the value of r: 3
+
+The number of possible combinations is: 120

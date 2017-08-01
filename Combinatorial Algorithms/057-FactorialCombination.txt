@@ -1,0 +1,66 @@
+This is a C++ to compute combinations using factorials.
+
+Problem Description:
+1. This algorithm prints a total number of combination possible for given n and r value.
+2. The time complexity of this algorithm is O(n).
+
+Problem Solution:
+1. This algorithm takes the input of n and r value.
+2. Print the result using ( n! / (r! * (n-r)!)).
+3. Exit.
+
+C++ Program/Source Code:
+
+// C++ Program to compute combinations using factorials.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function to find the factorial.
+int factorial(int n)
+{
+	int i;
+	for(i = n-1; i > 1; i--)
+		n *= i;
+
+	return n;
+}
+
+int main()
+{
+	int n, r,  result;
+	cout<<"A program to find combination from nCr format using ( n! / (r! * (n-r)!))";
+	cout<<"\n\n\tEnter the value of n: ";
+	cin>>n;
+	cout<<"\tEnter the value of r: ";
+	cin>>r;
+	
+	// Get result using formula to calculate combinations.
+	result = factorial(n)/(factorial(r)*factorial(n-r));
+	
+	cout<<"\nThe number of possible combinations is: "<<result;
+}
+
+Program Explanation:
+1. Take the input of n and r.
+2. Using factorial(), calculate values for n!, r! and (n-r)!.
+3. Using ( n! / (r! * (n-r)!)), print the result.
+4. Exit.
+
+Runtime Test Cases:
+Case 1:
+A program to find combination from nCr format using ( n! / (r! * (n-r)!))
+
+        Enter the value of n: 5
+        Enter the value of r: 3
+
+The number of possible combinations is: 10
+		
+Case 2:
+A program to find combination from nCr format using ( n! / (r! * (n-r)!))
+
+        Enter the value of n: 13
+        Enter the value of r: 4
+
+The number of possible combinations is: 221

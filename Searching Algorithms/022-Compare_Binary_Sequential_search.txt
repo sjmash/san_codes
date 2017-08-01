@@ -1,0 +1,188 @@
+C++ Program to Compare Binary and Sequential Search.
+
+Problem Description:
+1. Implement both binary and sequential search.
+2. The time complexity of Binary search is O(log(n)).
+3. The time complexity of Linear search is O(n).
+
+Problem Solution:
+1. Implement the binary search and count the number of iteration to compute the result.
+2. Implement the linear search and count the number of iteration to compute the result.
+3. Compare the number of iteration and show the better algorithm.
+4. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to compare Binary and Sequential Search.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function implementing Binary search on a sorted array.
+int BinarySearch(int a[], int start, int end, int item, int iter)
+{
+	int i, mid;
+	// Every time this function called, counted as a iteration of binary search.
+	cout<<"\niteration "<<iter+1;
+	iter++;
+	// Assigning middle of the array.
+	mid = start + (end-start+1)/2;
+	// If value is less than value at start index more than end index then item is not in the array. 
+	if(item > a[end] || item < a[start] || mid == end)
+	{
+		cout<<"\nNot found";
+		return iter;
+	}
+	// Return if item found at mid index.
+	else if(item == a[mid])
+	{
+		cout<<"\n item found at "<<mid<<" index.";
+		return iter;
+	}
+	// Return if item found at start index.
+	else if(item == a[start])
+	{
+		cout<<"\n item found at "<<start<<" index.";
+		return iter;
+	}
+	// Return if item found at end index.
+	else if(item == a[end])
+	{
+		cout<<"\n item found at "<<end<<" index.";
+		return iter;
+	}
+	// According to the item value choose the partion to proceed further.
+	else if(item > a[mid])
+		BinarySearch(a, mid, 19, item, iter);
+	else
+		BinarySearch(a, start, mid, item, iter);
+}
+
+// A function implementing Binary search on a sorted array.
+int LinearSearch(int a[], int n, int item)
+{
+	int i;
+	for(i = 0; i < n; i++)
+	{
+		cout<<"\niteration "<<i+1;
+		// Directly comparing the item with the array element sequentially. 
+		if(a[i] == item)
+		{
+			cout<<"\n item found at "<<i<<" index.";
+			// Returning the number of iteration taken place.
+			return i+1;
+		}
+	}
+	cout<<"\nNot found";
+}
+
+int main()
+{
+	int n, i, Biter, Liter, a[20]={1, 9, 18, 24, 27, 35, 38, 41, 49, 53, 55, 66, 67, 72, 75, 77, 81, 89, 90, 97};
+	cout<<"\nEnter the element to be searched: ";
+	cin>>n;
+	cout<<"\n\n\t\t\tBinary Search :";
+	cout<<"\n\t\t\t*************";
+	
+	Biter = BinarySearch(a, 0, 19, n, 0);
+	
+	cout<<"\n\n\t\t\tLinear Search :";
+	cout<<"\n\t\t\t*************";
+	Liter = LinearSearch(a, 20, n);
+	
+	// Comparing the number of iteration and printing the better approach for this search. 
+	if(Liter > Biter)
+		cout<<"\n\nBinary search is better for this search.";
+	else if(Liter < Biter)
+		cout<<"\n\nLinear search is better for this search.";
+	else
+		cout<<"\n\nBoth are equally efficient for this search.";
+        
+	return 0;
+}
+
+
+Program Explanation:
+1. Assign the data to the array in a sorted manner.
+2. Call BinarySearch() function with 'arr' the array of data and 'n' the number of values, start and end index, iteration count and element to be searched in the argument list.
+3. Increment the iteration counter and compare the item value with the a[mid].
+4. If item < a[mid] choose first half otherwise second half to proceed further.
+5. Return iteration value to main.
+6. Call the LinearSearch() function with 'arr' the array of data and 'n' the number of values, iteration count and element to be searched in the argument list.
+7. Sequentially search for the item in the array.
+8. Return iteration value to main.
+9. Compare the number of iteration and show the better algorithm.
+10. Exit.
+
+Runtime Test Cases:
+Case 1:(average case)
+
+Enter the element to be searched: 35
+
+                        Binary Search :
+                        *************
+iteration 1
+iteration 2
+item found at 5 index.
+
+                        Linear Search :
+                        *************
+iteration 1
+iteration 2
+iteration 3
+iteration 4
+iteration 5
+iteration 6
+item found at 5 index.
+
+Binary search is better for this search.
+
+Case 2:(best case)
+Enter the element to be searched: 1
+
+                        Binary Search :
+                        *************
+iteration 1
+item found at 0 index.
+
+                        Linear Search :
+                        *************
+iteration 1
+item found at 0 index.
+
+Both are equally efficient for this search.
+
+
+case 3: (worst case)
+
+Enter the element to be searched: 97
+
+                        Binary Search :
+                        *************
+iteration 1
+item found at 19 index.
+
+                        Linear Search :
+                        *************
+iteration 1
+iteration 2
+iteration 3
+iteration 4
+iteration 5
+iteration 6
+iteration 7
+iteration 8
+iteration 9
+iteration 10
+iteration 11
+iteration 12
+iteration 13
+iteration 14
+iteration 15
+iteration 16
+iteration 17
+iteration 18
+iteration 19
+iteration 20
+item found at 19 index.

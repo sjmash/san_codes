@@ -1,0 +1,79 @@
+This is a C++ program to generate a random subset by coin flipping.
+
+Problem Description:
+1. This algorithm prints a subset of the given array using coin flipping method.
+2. The time complexity of this algorithm is O(n).
+
+Problem Solution:
+1. This algorithm takes the input of 'n' data element and prints a possible subset.
+2. For that, it generates n bit random sequence of 0 or 1 like a coin flipping.
+3. Exit.
+
+C++ Program/Source Code:
+// C++ Program to generate a random subset by coin flipping.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<stdlib.h>
+
+using namespace std;
+
+int main()
+{
+	int i, n;
+	cout<<"\nEnter the number of element array have: ";
+	cin>>n;
+	
+	int arr[n];
+	cout<<"\n";
+	
+	// Take the input of the array.
+	for(i = 0; i < n; i++)
+	{
+		cout<<"Enter "<<i+1<<" element: ";
+		cin>>arr[i];
+	}
+	
+	// Print the subset using .
+	cout<<"\nThe random subset of the given set is: \n\t{ ";
+	for(i = 0; i < n; i++)
+	{
+		// Randomly generates 0 or 1 as coin flipping and print the array element if it is 1.
+		if(rand()%2 == 1)
+			cout<<arr[i]<<" ";
+	}
+	cout<<"}";
+
+	return 0;
+}
+
+Program Explanation:
+1. Take the input of an array of 'n' data element.
+2. Using rand()%2, generate a random binary sequence of length n.
+3. While generating n bit binary sequence if the bit generated is 1 then print the corresponding array element.
+4. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the number of element array have: 5
+
+Enter 1 element: 1
+Enter 2 element: 2
+Enter 3 element: 3
+Enter 4 element: 4
+Enter 5 element: 5
+
+The random subset of the given set is:
+        { 1 2 5 }
+Case 2:
+Enter the number of element array have: 7
+
+Enter 1 element: 1
+Enter 2 element: 5
+Enter 3 element: 8
+Enter 4 element: 2
+Enter 5 element: 3
+Enter 6 element: 4
+Enter 7 element: 9
+
+The random subset of the given set is:
+        { 1 5 3 }

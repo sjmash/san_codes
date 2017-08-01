@@ -1,0 +1,125 @@
+This is a C++ program to represent graph using incidence matrix.
+
+Problem Description:
+1. This algorithm represents a graph using incidence matrix.
+2. The time complexity of this algorithm is O(v*v).
+
+Problem Solution:
+1. This algorithm takes the input of the number of vertex.
+2. For each pair of vertex ask user whether they are connected or not.
+3. Print the incidence matrix.
+4. Exit.
+
+C++ Program/Source Code:
+// C++ program to represent graph using incidence matrix.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<iomanip>
+
+using namespace std;
+
+// A function to print the incidence matrix.
+void PrintMat(int mat[][20], int n, int count)
+{
+	int i, j;
+	
+	cout<<"\n\n"<<setw(6)<<"";
+	for(i = 0; i < n; i++)
+		cout<<setw(6)<<"V("<<i+1<<")";
+	cout<<"\n\n";
+	
+	// Print the incidence matrix.
+	for(i = 0; i < count; i++)
+	{
+		cout<<setw(6)<<"E("<<i+1<<")";
+		
+		for(j = 0; j < n; j++)
+		{
+			cout<<setw(6)<<mat[i][j];
+		}
+
+		cout<<"\n\n";
+	}
+}
+
+int main()
+{
+	int i, j, v, k, count = 0, n, incimat[100][20];
+	
+	cout<<"Enter the number of vertexes: ";
+	cin>>v;
+	
+	// Take input of the adjacency of each pair of vertexes.
+	for(i = 0; i < v; i++)
+	{
+		for(j = i+1; j < v; j++)
+		{
+			cout<<"\nEnter 1 if the vertex "<<i+1<<" is adjacent to "<<j+1<<", otherwise 0: ";
+			cin>>n;
+			if(n == 1)
+			{
+				for(k = 0; k < v; k++)
+				{
+					if(k == i || k == j)
+						incimat[count][k] = 1;
+					else
+						incimat[count][k] = 0;
+				}
+				count++;
+				cout<<"\t\tIt is edge E("<<count<<").";
+			}
+		}
+	}
+	
+	PrintMat(incimat, v, count);
+}
+
+Program Explanation:
+1. Take the input of the number of vertex in the graph.
+2. For each pair of vertex, ask user, if vertex 'i' is connected to vertex 'j'.
+3. If yes, then store 1 to the corresponding vertex int the incimat[] matrix.
+4. Using PrintMat(), print the incidence matrix.
+5. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the number of vertexes: 3
+
+Enter 1 if the vertex 1 is adjacent to 2, otherwise 0: 1
+                It is edge E(1).
+Enter 1 if the vertex 1 is adjacent to 3, otherwise 0: 0
+
+Enter 1 if the vertex 2 is adjacent to 3, otherwise 0: 1
+                It is edge E(2).
+
+          V(1)    V(2)    V(3)
+
+    E(1)     1     1     0
+
+    E(2)     0     1     1
+	
+Case 2:
+Enter the number of vertexes: 4
+
+Enter 1 if the vertex 1 is adjacent to 2, otherwise 0: 1
+                It is edge E(1).
+Enter 1 if the vertex 1 is adjacent to 3, otherwise 0: 1
+                It is edge E(2).
+Enter 1 if the vertex 1 is adjacent to 4, otherwise 0: 0
+
+Enter 1 if the vertex 2 is adjacent to 3, otherwise 0: 1
+                It is edge E(3).
+Enter 1 if the vertex 2 is adjacent to 4, otherwise 0: 0
+
+Enter 1 if the vertex 3 is adjacent to 4, otherwise 0: 1
+                It is edge E(4).
+
+          V(1)    V(2)    V(3)    V(4)
+
+    E(1)     1     1     0     0
+
+    E(2)     1     0     1     0
+
+    E(3)     0     1     1     0
+
+    E(4)     0     0     1     1

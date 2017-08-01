@@ -1,0 +1,94 @@
+C++ Program to find second smallest of n elements with given complexity constraint.
+
+Problem Description:
+1. Traverse the data array linearly and find the second smallest element.
+2. The time complexity of the algorithm is O(n).
+
+Problem Solution:
+1. Linearly traverse the data array.
+2. Keep track of the smallest number.
+3. Simultaneously keep updating the second smallest number also.
+4. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to find second smallest of n elements with given complexity constraint.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function to calculate second.
+int SecondSmallest(int *a, int n)
+{
+	int s, ss, i;
+	// A variable 's' keeping track of smallest number.
+	s = a[0];
+	// A variable 'ss' keeping track of second smallest number.
+	ss = a[0];
+	
+	// Traverse the data array.
+	for(i = 1; i < n; i++)
+	{
+		// If array element is lesser than current 's' value then update.
+		if(s > a[i])
+		{
+			ss = s;
+			s =  a[i];
+		}
+		// Otherwise the number can be second smallest number so check for the condition and update 'ss'.
+		else if(ss > a[i])
+		{
+			ss = a[i];
+		}
+	}
+	// Return second smallest number.
+	return ss;
+}
+
+int main()
+{
+	int n, i;
+	cout<<"Enter the number of element in dataset: ";
+	cin>>n;
+	
+	int a[n];
+	// Take input.
+	for(i = 0; i < n; i++)
+	{
+		cout<<"Enter "<<i+1<<"th element: ";
+		cin>>a[i];
+	}
+	
+	// Print the result.
+	cout<<"\n\nThe second Smallest number of the given data array is: "<<SecondSmallest(a, n);
+	
+	return 0;
+}
+
+Program Explanation:
+1. Assign the data to the array.
+2. Call SecondSmallest() function with 'arr' the array of data and number of elements, in the argument list.
+3. Assign variable 's' and 'ss' as the first element of the array.
+4. Traverse the array.
+5. Check if the value of s is larger than current array element, update the variable 's'.
+6. Otherwise, check if the value of ss is larger than current array element, update the variable 'ss'.
+7. Return ss as the second smallest element, to the main(). 
+8. Print the result.
+9. exit.
+
+Runtime Test Case:
+Enter the number of element in dataset:10
+
+Enter 1th element: 23
+Enter 2th element: 69
+Enter 3th element: 586
+Enter 4th element: 241
+Enter 5th element: 329
+Enter 6th element: 223
+Enter 7th element: 652
+Enter 8th element: 9
+Enter 9th element: 121
+Enter 10th element: 16
+
+The second Smallest number of the given data array is: 16

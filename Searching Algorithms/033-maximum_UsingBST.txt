@@ -1,0 +1,123 @@
+C++ Program to find the maximum element of an array using Binary Search approach.
+
+Problem Description:
+1. Construct a Binary Search Tree for the given data.
+2. Search the maximum element with time complexity O(log(n)).
+
+Problem Solution:
+1. Construct binary search tree for the given unsorted data array.
+2. For the maximum element move the pointer to the rightmost child node.
+3. This value will be the minimum value among the given data.
+4. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to find the maximum element of an array using Binary Search approach.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A structure representing a node of a tree.
+struct node
+{
+	int data;
+	node *left;
+	node *right;
+};
+
+// A function creating new node of tree and assigning the data.
+node* CreateNode(int data)
+{
+	node *newnode = new node;
+	newnode->data = data;
+	newnode->left = NULL;
+	newnode->right = NULL;
+	
+	return newnode;
+}
+
+// A function creating binary search tree.
+node* InsertIntoTree(node* root, int data)
+{
+	// Create node using data from argument list.
+	node *temp = CreateNode(data);
+	node *t = new node;
+	t = root;
+	
+	// If root is null, assign it to the node created.
+	if(root == NULL)
+		root = temp;
+	else	
+	{
+		// Find the position for the new node to be inserted.
+		while(t != NULL)
+		{
+			if(t->data < data )
+			{
+				if(t->right == NULL)
+				{
+					// If current node is NULL then insert the node.
+					t->right = temp;
+					break;
+				}
+				// Shift pointer to the left.
+				t = t->right;
+			}
+
+			else if(t->data > data)
+			{
+				if(t->left == NULL)
+				{
+					// If current node is NULL then insert the node.
+					t->left = temp;
+					break;
+				}
+				// Shift pointer to the left.	
+				t = t->left;
+			}
+		}
+	}
+	return root;
+}
+
+
+int main()
+{
+	char ch;
+	int n, i, a[20]={89, 53, 95, 1, 9, 67, 72, 66, 75, 77, 18, 24, 35, 90, 38, 41, 49, 81, 27, 97};
+	node *root = new node;
+	root = NULL;
+	
+	// Construct the BST.
+	cout<<"\nData set:\n";
+	for(i = 0; i < 20; i++)
+	{
+		cout<<a[i]<<" ";
+		root = InsertIntoTree(root, a[i]);
+	}
+	
+	// Traverse to the rightmost child node to get maximum of the given data.
+	cout<<"\n\nThe maximum element of the given data set is ";
+	i = 0;
+	while(root->right != NULL)
+	{
+		i++;
+		root = root->right;
+	}
+	cout<<root->data<<" found at "<<i<<" depth from the root.";
+	
+	return 0;
+}
+
+Program Explanation:
+1. Construct the Binary Search Tree using the given data.
+2. Traverse the root pointer to the rightmost child node available.
+3. Print the data part of the node as the maximum data element of the given data set.
+4. exit.
+
+Runtime Test Case:
+Data set:
+89 53 95 1 9 67 72 66 75 77 18 24 35 90 38 41 49 81 27 97
+
+The maximum element of the given data set is 97 found at 2 depth from the root.

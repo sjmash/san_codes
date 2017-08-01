@@ -1,0 +1,132 @@
+This is a C++ program to generate all possible combinations out of a,b,c,d,e.
+
+Problem Description:
+1. This algorithm print all the possible combination of each length from the given array.
+2. The time complexity of this algorithm is O(n*(2^n)).
+
+Problem Solution:
+1. This algorithm takes the input of 'n' data element and prints all possible combination.
+2. For that, it maintains a boolean array 'n'.
+3. If the corresponding boolean value is true, then it prints that element.
+4. Exit.
+
+C++ Program/Source Code:
+
+// C++ Program to generate all possible combinations out of a,b,c,d,e.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function to print all combination of a given length from the given array.
+void Combination(int a[], int reqLen, int start, int currLen, bool check[], int len) 
+{
+	// Return if the currLen is more than the required length.
+	if(currLen > reqLen)
+	return;
+	// If currLen is equal to required length then print the sequence.
+	else if (currLen == reqLen) 
+	{
+		cout<<"\t";
+		for (int i = 0; i < len; i++) 
+		{
+			if (check[i] == true) 
+			{
+				cout<<a[i]<<" ";
+			}
+		}
+		cout<<"\n";
+		return;
+	}
+	// If start equals to len then return since no further element left.
+	if (start == len) 
+	{
+		return;
+	}
+	// For every index we have two options.
+	// First is, we select it, means put true in check[] and increment currLen and start.
+	check[start] = true;
+	Combination(a, reqLen, start + 1, currLen + 1, check, len);
+	// Second is, we don't select it, means put false in check[] and only start incremented.
+	check[start] = false;
+	Combination(a, reqLen, start + 1, currLen, check, len);
+}
+
+int main()
+{
+	int i, n;
+	bool check[n];
+	cout<<"Enter the number of element array have: ";
+	cin>>n;
+	
+	int arr[n];
+	cout<<"\n";
+	
+	// Take the input of the array.
+	for(i = 0; i < n; i++)
+	{
+		cout<<"Enter "<<i+1<<" element: ";
+		cin>>arr[i];
+		check[i] = false;
+	}
+	
+	// For each length of sub-array, call the Combination().
+	for(i = 1; i <= n; i++)
+	{
+		cout<<"\nThe combination of  length "<<i<<" for the given array set:\n";
+		Combination(arr, i, 0, 0, check, n);
+	}
+	return 0;
+}
+
+Program Explanation:
+1. Assign the boolean array 'check[]' to false initially.
+2. For  each length 'i' call the Combination() function.
+3. In Combination(), if currLen is more than the reqLen then return.
+4. Otherwise, if currLen is equal to reqLen then there will be a new sequence generated, print it.
+5. There will be two option either proceed with a start as 'true' and recursively call Combination() with incremented value of 'currLen' and 'start'.
+6. Or proceed with a start as 'false' and recursively call Combination() with incremented value of 'start'.
+7. Exit.
+
+Runtime Test Cases:
+Output:
+The combination of  length 1 for the given array set:
+        a
+        b
+        c
+        d
+        e
+
+The combination of  length 2 for the given array set:
+        a b
+        a c
+        a d
+        a e
+        b c
+        b d
+        b e
+        c d
+        c e
+        d e
+
+The combination of  length 3 for the given array set:
+        a b c
+        a b d
+        a b e
+        a c d
+        a c e
+        a d e
+        b c d
+        b c e
+        b d e
+        c d e
+
+The combination of  length 4 for the given array set:
+        a b c d
+        a b c e
+        a b d e
+        a c d e
+        b c d e
+
+The combination of  length 5 for the given array set:
+        a b c d e

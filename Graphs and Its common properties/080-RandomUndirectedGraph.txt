@@ -1,0 +1,131 @@
+This is a C++ program to generate a random undirected graph for a given number of edges.
+
+Problem Description:
+1. This algorithm generates a undirected random graph for the given edges 'e'.
+2. Basically it implements on a big network.
+3. The time complexity of this algorithm is O(log(n)).
+
+Problem Solution:
+1. This algorithm takes the input of the number of edges 'e'.
+2. It connects vertexes randomly and generate cyclic, acyclic or disconnected graphs.
+
+C++ Program/Source Code:
+// C++ Program to generate a random undirected graph for a given number of edges.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<stdlib.h>
+
+// The maximum number of vertex for the sample random graph.
+#define NOV 20
+
+using namespace std;
+
+// A function to generate random graph.
+void GenerateRandGraphs(int e)
+{
+	int i, j, edge[e][2], count;
+	
+	i = 0;
+	// Build a connection between two random vertex.
+	while(i < e)
+	{
+		edge[i][0] = rand()%NOV+1;
+		edge[i][1] = rand()%NOV+1;
+		i++;
+	}
+	
+	// Print the random graph.
+	cout<<"\nThe generated random graph is: ";
+	for(i = 0; i < NOV; i++)
+	{
+		count = 0;
+		cout<<"\n\t"<<i+1<<"-> { ";
+		for(j = 0; j < e; j++)
+		{
+			if(edge[j][0] == i+1)
+			{
+				cout<<edge[j][1]<<"   ";
+				count++;
+			}
+			else if(edge[j][1] == i+1)
+			{
+				cout<<edge[j][0]<<"   ";
+				count++;
+			}
+			else if(j == e-1 && count == 0)
+				cout<<"Isolated Vertex!";
+		}
+		cout<<" }";
+	}	
+}
+
+
+int main()
+{
+	int n, i ,e;
+	
+	cout<<"Enter the number of edges for the random graphs: ";
+	cin>>e;
+	
+	// A function to generate random undirected graph with e edges.
+	GenerateRandGraphs(e);
+}
+
+Program Explanation:
+1. Take the input of the number of edges for the random graph.
+2. Call GenerateRandGraphs(), with 'e' as the number edges in the argument list.
+3. Inside GenerateRandGraphs(), generate a connection between two random numbers, for sample a small case, limit the number of vertex to 20.
+4. Print all the connection of each vertexes, irrespective of the direction.
+5. Print "Isolated vertex" for the vertex having zero degree.
+6. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the number of edges for the random graphs: 10
+
+The generated random graph is:
+        1-> { 15    }
+        2-> { 8   8   12    }
+        3-> { 5   16    }
+        4-> { Isolated Vertex! }
+        5-> { 10   3    }
+        6-> { 6    }
+        7-> { Isolated Vertex! }
+        8-> { 2   2   17    }
+        9-> { Isolated Vertex! }
+        10-> { 5    }
+        11-> { Isolated Vertex! }
+        12-> { 2    }
+        13-> { Isolated Vertex! }
+        14-> { Isolated Vertex! }
+        15-> { 1    }
+        16-> { 3    }
+        17-> { 8    }
+        18-> { Isolated Vertex! }
+        19-> { 19    }
+        20-> { Isolated Vertex! }
+
+Case 2:
+Enter the number of edges for the random graphs: 50
+
+The generated random graph is:
+        1-> { 15   3   17    }
+        2-> { 8   8   12   17   12   4   7   10    }
+        3-> { 5   16   14   13   14   18   11   1   19    }
+        4-> { 12   2   10   7    }
+        5-> { 10   3   12   14   8   9   15   20    }
+        6-> { 6   7    }
+        7-> { 8   9   6   2   17   4    }
+        8-> { 2   2   17   7   20   5    }
+        9-> { 14   7   5   14   12    }
+        10-> { 5   13   19   11   4   2    }
+        11-> { 3   10   11    }
+        12-> { 2   5   19   4   2   9    }
+        13-> { 3   10    }
+        14-> { 3   3   5   9   9    }
+        15-> { 1   16   5    }
+        16-> { 3   19   15   17    }
+        17-> { 8   2   16   1   7    }
+        18-> { 3   20   19    }
+        19-> { 19   16   12   10   18   3    }
+        20-> { 8   18   5    }

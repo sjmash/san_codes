@@ -1,0 +1,162 @@
+This is a C++ program to find the Mode in a Dataset.
+
+Problem Description:
+1. The mode is the maximum of the count of occurrence of the different data element.
+2. This algorithm is beneficial for a large dataset with high repetition frequency.
+3. The worst case time complexity of this algorithm is O(n^2).
+
+Problem Solution:
+1. This algorithm inserts the distinct data into linked list in a sorted manner.
+2. Instead of inserting same data twice it records the occurrence of each data element.
+3. The maximum occurred among these is the Mode.
+4. Exit.
+
+C++ Program/Source Code:
+
+// C++ Program to Find the Mode in a Data Set.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include <iostream>
+
+using namespace std;
+
+// A structure to represent a node.
+struct list
+{
+	int data;
+	int count;
+	list *next;
+};
+
+// Function to insert data into linked list.
+list* insertinlist(list *head, int n)
+{
+	// Creating newnode and temp node.
+	list *newnode = new list;
+	list *temp = new list;
+	
+	// Using newnode as the node to be inserted in the list.
+	newnode->data = n;
+	newnode->count = 0;
+	newnode->next = NULL;
+	
+	// If head is null then assign new node to head and increase the count.
+	if(head == NULL)
+	{
+		head = newnode;
+		head->count++;
+		return head;
+	}
+	else
+	{
+		temp = head;
+		
+		// If newnode->data is lesser than head->data, then insert newnode before head and increase the count.
+		if(newnode->data < head->data)
+		{
+			newnode->next = head;
+			head = newnode;
+			newnode->count++;
+			return head;
+		}
+		// If newnode->data is equal to the head data then increase count of the head node.
+		else if(newnode->data == head->data)
+		{
+			head->count++;
+			return head;
+		}
+		
+		// Traverse the list till we get value more than or equal to the newnode->data.
+		while(temp->next != NULL)
+		{
+			// If equals to any of the data present in the list then increse the counter and return.
+			if(newnode->data == (temp->next)->data)
+			{
+				(temp->next)->count++;
+				return head;
+			}
+			if(newnode->data < (temp->next)->data)
+				break;
+				
+			temp=temp->next;
+		}
+		
+		// Insert newnode after temp.
+		newnode->next = temp->next;
+		temp->next = newnode;
+		// Increase the counter.
+		newnode->count++;
+		return head;
+	}	
+}	
+ 
+int main()
+{
+    int n, i, num, max = 0, c;
+    // Declaring head of the linked list.
+    list *head = new list;
+    head = NULL;
+    
+	cout<<"\nEnter the number of data element to be sorted: ";
+	cin>>n;
+	
+	for(i = 0; i < n; i++)
+	{
+		cout<<"Enter element "<<i+1<<": ";
+		cin>>num;
+		// Inserting num in the list.
+		head = insertinlist(head, num);
+	}
+	
+	// Printing the sorted data.
+	cout<<"\nSorted Distinct Data ";
+    	
+	while(head != NULL)
+	{
+    		if(max < head->count)
+    		{
+    			c = head->data;
+			max = head->count;
+		}
+		cout<<"->"<<head->data<<"("<<head->count<<")";
+		head = head->next;
+	}
+	
+	cout<<"\nThe Mode of given data is "<<c<<" and occurred "<<max<<" times.";
+	return 0;
+}
+
+Program Explanation:
+1. Create a head node of the list structure.
+2. Take input of data and simultaneously insert it into a list using InsertinList().
+3. During insertion, sort the data using the concept of insertion sort.
+4. If the newnode->data is equal to any of the element present in the list then just increment count.
+5. Return to main and find the maximum of the count data member of each node.
+6. print the maximum occurred data and its count.
+7. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the number of data element to be sorted: 20
+Enter element 1: 2
+Enter element 2: 6
+Enter element 3: 5
+Enter element 4: 9
+Enter element 5: 8
+Enter element 6: 4
+Enter element 7: 2
+Enter element 8: 3
+Enter element 9: 1
+Enter element 10: 2
+Enter element 11: 0
+Enter element 12: 1
+Enter element 13: 0
+Enter element 14: 2
+Enter element 15: 8
+Enter element 16: 5
+Enter element 17: 4
+Enter element 18: 2
+Enter element 19: 6
+Enter element 20: 2
+
+Sorted Distinct Data ->0(2)->1(2)->2(6)->3(1)->4(2)->5(2)->6(2)->8(2)->9(1)
+The Mode of given data is 2 and occurred 6 times.

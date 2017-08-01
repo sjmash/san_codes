@@ -1,0 +1,128 @@
+This is a C++ program to sort the given data using Shaker Sort.
+
+Problem Description:
+1. Shaker sort, unlike bubble sort, orders the array in both directions.
+2. The worst case time complexity is O(n^2).
+
+Problem Solution:
+1. In each iteration, sorting is done in two parts.
+2. Firstly set the highest value to the highest index and decrement the index.
+3. Then lowest value to the lowest index and increment the index.
+4. Display the result.
+5. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to implement Shaker Sort.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function to swap values using call by reference. 
+void swap(int *a, int *b)
+{
+	int temp;
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+// A function implementing shaker sort.
+void ShakerSort(int a[], int n)
+{
+	int i, j, k;
+	for(i = 0; i < n;)
+	{
+		// First phase for ascending highest value to the highest unsorted index.
+		for(j = i+1; j < n; j++)
+		{
+			if(a[j] < a[j-1])
+				swap(&a[j], &a[j-1]);
+		}
+		// Decrementing highest index. 
+		n--;
+		
+		// Second phase for descending lowest value to the lowest unsorted index.
+		for(k = n-1; k > i; k--)
+		{
+			if(a[k] < a[k-1])
+				swap(&a[k], &a[k-1]);
+		}
+		// Incrementing lowest index.
+		i++;
+	}
+}
+
+int main()
+{
+	int n, i;
+	cout<<"\nEnter the number of data element to be sorted: ";
+	cin>>n;
+	
+	int arr[n];
+	for(i = 0; i < n; i++)
+	{
+		cout<<"Enter element "<<i+1<<": ";
+		cin>>arr[i];
+	}
+	
+	ShakerSort(arr, n);
+	
+	// Printing the sorted data.
+	cout<<"\nSorted Data ";
+	for (i = 0; i < n; i++)
+		cout<<"->"<<arr[i];
+        
+	return 0;
+}   
+
+
+
+Program Explanation:
+1. Take input of data.
+2. Call ShakerSort() function with 'arr' the array of data and 'n' the number of values, in the argument list.
+3. Implement Sorting algorithm using nested for loops.
+4. The parent loop will run on 'i' from 0 to n-1 and contains two loops inside.
+5. The first loop will run on 'j' from i+1 to n-1 and use swap() if a[j] < a[j-1].
+6. Decrement n.
+7. The second loop will run on 'k' from n-1 to i+1 and use swap() if a[k] < a[k-1].
+8. Increment i.
+9. Return to main and display the result.
+10. Exit.
+
+Runtime Test Cases:
+Case 1:(average case)
+
+Enter the number of data element to be sorted: 5
+Enter element 1: 998
+Enter element 2: 451
+Enter element 3: 2
+Enter element 4: 35
+Enter element 5: 1206
+
+Sorted Data ->2->35->451->998->1206
+ 
+
+Case 2:(best case)
+
+Enter the number of data element to be sorted: 5
+Enter element 1: 2
+Enter element 2: 332
+Enter element 3: 456
+Enter element 4: 1024
+Enter element 5: 16565
+
+Sorted Data ->2->332->456->1024->16565
+
+
+case 3: (worst case)
+
+Enter the number of data element to be sorted: 5
+Enter element 1: 99845
+Enter element 2: 564
+Enter element 3: 332
+Enter element 4: 86
+Enter element 5: 1
+
+Sorted Data ->1->86->332->564->99845

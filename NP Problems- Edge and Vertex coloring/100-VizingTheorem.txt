@@ -1,0 +1,157 @@
+﻿This is a C++ program to implement the Vizing’s Theorem.
+
+Problem Description:
+1. This algorithm Implements Vizing's Theorem.
+2. According to this theorem, the chromatic index of the simple graph can be either maxDegree or maxDegree+1.
+3. The chromatic index is the maximum number of color needed for the edge coloring of the graph.
+
+Problem Solution:
+1. This algorithm takes the input of the number of vertexes and the number of edges in the graph.
+2. It takes the input of vertex pairs for the given number of edges.
+3. It assigns a color to edges without assigning the same color to two adjacent edges.
+4. Exit.
+
+C++ Program/Source Code:
+// C++ Program to implement the Vizing’s Theorem.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function to color edges of the graph.
+void EdgeColoring(int edge[][3], int e)
+{
+	int i, col, j;
+	// Loop to assign a valid color to every edge 'i'.
+	for(i = 0; i < e; i++)
+	{
+		col = 1;
+		flag:
+		// Assign a color and then check its validity.
+		edge[i][2] = col;
+		for(j = 0; j < e; j++)
+		{
+			if(j == i)
+				continue;
+			
+			// Check the colors of the edges adjacent to the edge i.
+			if(edge[j][0] == edge[i][0] || edge[j][0] == edge[i][1] || edge[j][1] == edge[i][0] || edge[j][1] == edge[i][1])
+			{
+				// If the color matches then goto line 11 and assign next color to the edge and check again.
+				if(edge[j][2] == edge[i][2])
+				{
+					col++;
+					goto flag;
+				}
+			}
+		}
+	}
+}
+
+int main()
+{
+	int i, v, e, j, max = -1;
+	
+	// take the input of the number of vertex and edges.
+	cout<<"Enter the number of vertexes of the graph: ";
+	cin>>v;
+	cout<<"Enter the number of edges of the graph: ";
+	cin>>e;
+	int edge[e][3], degree[v+1] = {0};
+	
+	// Take the input of the adjacent vertex pairs of the given graph.
+	for(i = 0; i < e; i++)
+	{
+		cout<<"\nEnter the vertex pair for edge "<<i+1;
+		cout<<"\nV(1): ";
+		cin>>edge[i][0];
+		cout<<"V(2): ";
+		cin>>edge[i][1];
+		
+		edge[i][2] = -1;
+		degree[edge[i][0]]++;
+		degree[edge[i][1]]++;
+	}
+	
+	// Find the maximum degree.
+	for(i = 1; i <= v; i++)
+	{
+		if(max < degree[i])
+			max = degree[i];
+	}
+	
+	// Color the edges of the graph.
+	EdgeColoring(edge , e);
+	
+	cout<<"\nAccording to Vizing's theorem this graph can use a maximum of "<<max+1<<" colors to generate a valid edge coloring.\n\n";
+	
+	for(i = 0; i < e; i++)
+		cout<<"\nThe color of the edge between vertex V(1):"<<edge[i][0]<<" and V(2):"<<edge[i][1]<<" is: color"<<edge[i][2]<<".";
+}
+
+Program Explanation:
+1. Take the input of the number of vertexes 'v' and number of edges 'e'.
+2. Take the input of 'e' vertex pairs for the 'e' edges in the graph in edge[][].
+3. Calculate the degree of each vertex in degree[] and calculate maximum among them.
+4. Using EdgeColoring(), Color the graph edges.
+5. Inside EdgeColoring(), assign color to current edge as col i.e. 1 initially.
+6. If any of the adjacent edges have the same color then discard this color and go to flag again and try next color.
+7. Return to main and print the color for each edge.
+8. Exit.
+
+Runtime Test Cases
+Case 1:
+Enter the number of vertexes of the graph: 4
+Enter the number of edges of the graph: 5
+
+Enter the vertex pair for edge 1
+V(1): 1
+V(2): 2
+
+Enter the vertex pair for edge 2
+V(1): 2
+V(2): 3
+
+Enter the vertex pair for edge 3
+V(1): 3
+V(2): 4
+
+Enter the vertex pair for edge 4
+V(1): 4
+V(2): 1
+
+Enter the vertex pair for edge 5
+V(1): 1
+V(2): 3
+
+According to Vizing's theorem, this graph can use a maximum of 4 colors to generate a valid edge coloring
+
+
+The color of the edge between vertex V(1):1 and V(2): 2 is: color1.
+The color of the edge between vertex V(1):2 and V(2): 3 is: color2.
+The color of the edge between vertex V(1):3 and V(2): 4 is: color1.
+The color of the edge between vertex V(1):4 and V(2): 1 is: color2.
+The color of the edge between vertex V(1):1 and V(2): 3 is: color3.
+
+Case 2:
+Enter the number of vertexes of the graph: 3
+Enter the number of edges of the graph: 3
+
+Enter the vertex pair for edge 1
+V(1): 1
+V(2): 2
+
+Enter the vertex pair for edge 2
+V(1): 2
+V(2): 3
+
+Enter the vertex pair for edge 3
+V(1): 3
+V(2): 1
+
+According to Vizing's theorem, this graph can use a maximum of 3 colors to generate a valid edge coloring
+
+
+The color of the edge between vertex V(1):1 and V(2): 2 is: color1.
+The color of the edge between vertex V(1):2 and V(2): 3 is: color2.
+The color of the edge between vertex V(1):3 and V(2): 1 is: color3.

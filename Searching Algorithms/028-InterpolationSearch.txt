@@ -1,0 +1,114 @@
+C++ Program to implement Interpolation Search.
+
+Problem Description:
+1. It is a better approach for uniform data.
+2. Implement binary search using interpolation approach.
+3. The time complexity is O(log(n)).
+
+Problem Solution:
+1. Implement the binary search on a sorted array.
+2. Calculate mid value using interpolation formula.
+3. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to implement Interpolation Search.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+
+using namespace std;
+
+// A function implementing Interpolation search on a sorted array.
+void InterpolationSearch(int a[], int start, int end, int item)
+{
+	int mid;
+
+	// Assigning middle of the array.
+	mid = start+((item-a[start])*(end-start))/(a[end]-a[start]);
+	
+	if(item == a[mid])
+	{
+		cout<<"\nItem found at "<<mid<<" index.";
+		return;
+	}
+	// Return if item found at start index.
+	else if(item == a[start])
+	{
+		cout<<"\nItem found at "<<start<<" index.";
+		return;
+	}
+	// Return if item found at end index.
+	else if(item == a[end])
+	{
+		cout<<"\nItem found at "<<end<<" index.";
+		return;
+	}
+	else if(mid == start || mid == end)
+	{
+		cout<<"\nElement not found";
+		return;
+	}
+	// According to the item value choose the partition to proceed further.
+	else if(item > a[mid])
+		InterpolationSearch(a, mid, 19, item);
+	else
+		InterpolationSearch(a, start, mid, item);
+}
+
+int main()
+{
+	int n, i, biter, a[20]={1, 9, 18, 24, 27, 35, 38, 41, 49, 53, 55, 66, 67, 72, 75, 77, 81, 89, 90, 97};
+	char ch;
+	
+	up:
+	cout<<"\nEnter the Element to be searched: ";
+	cin>>n;
+	// Implement Interpolation search.
+	InterpolationSearch(a, 0, 19, n);
+	
+	// Ask user to enter choice for further searching.
+	cout<<"\n\n\tDo you want to search more...enter choice(y/n)?";
+	cin>>ch;
+	if(ch == 'y' || ch == 'Y')
+		goto up;
+        
+	return 0;
+}
+
+Program Explanation:
+1. Assign the data to the array in a sorted manner.
+2. take the input of the element to be searched.
+3. Call InterpolationSearch() function.
+4. Calculate mid value using 'start+((item-a[start])*(end-start))/(a[end]-a[start])' expression.
+5. If the item is equal to the value at mid index, print result and return to main.
+6. If the item is lesser than the value at mid index, proceed with the left sub-array.
+7. If the item is more than the value at mid index, proceed with the right sub-array.
+8. If the calculated mid value is equal to either start or end then the item is not found in the array.
+9. Return to main and ask for user's choice to search more.
+10. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the Element to be searched: 53
+
+Item found at 9 index.
+
+        Do you want to search more...enter choice(y/n)?y
+
+Enter the Element to be searched: 77
+
+Item found at 15 index.
+
+        Do you want to search more...enter choice(y/n)?y
+
+Enter the Element to be searched: 24
+
+Item found at 3 index.
+
+        Do you want to search more...enter choice(y/n)?y
+
+Enter the Element to be searched: 91
+
+Element not found
+
+        Do you want to search more...enter choice(y/n)?n

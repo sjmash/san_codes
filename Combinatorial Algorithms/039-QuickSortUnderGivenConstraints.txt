@@ -1,0 +1,134 @@
+This is a C++ Program to Implement Quick Sort with Given Complexity Constraint.
+
+Problem Description:
+1. Quick sort is based on an algorithmic design pattern called divide-and-conquer. 
+2. The average time complexity is O(n*log(n)) but the worst case complexity is O(n^2).
+3. To reduce the chances of the worst case we have implemented Quicksort using randomization. 
+4. Here we will be selecting the pivot randomly.
+
+Problem Solution:
+1. Randomly select pivot value from the given subpart of the array.
+2. Partition that subpart so that the values left of the pivot are smaller and to the right are greater from the pivot.
+3. Consider both as new sub-array and repeat step 1 until only one element left in subpart.
+4. Display the result.
+5. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to implement Quick sort using randomization.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<cstdlib>
+
+using namespace std;
+
+// Swapping two values.
+void swap(int *a, int *b)
+{
+	int temp; 
+	temp = *a;
+	*a = *b;
+	*b = temp;
+}
+
+// Partitioning the array on the basis of values at high as pivot value.
+int Partition(int a[], int low, int high)
+{
+	int pivot, index, i;
+	index = low;
+	pivot = high;
+	
+	// Getting index of pivot.
+	for(i=low; i < high; i++)
+	{
+		if(a[i] < a[pivot])
+		{
+			swap(&a[i], &a[index]);
+			index++;
+		}
+	}
+	// Swapping value at high and at the index obtained.
+	swap(&a[pivot], &a[index]);
+	
+	return index;
+}
+
+// Random selection of pivot.
+int RandomPivotPartition(int a[], int low, int high)
+{
+	int pvt, n, temp;
+	n = rand();
+	// Randomizing the pivot value in the given subpart of array.
+	pvt = low + n%(high-low+1);
+	
+	// Swapping pvt value from high, so pvt value will be taken as pivot while partitioning.
+	swap(&a[high], &a[pvt]);
+	
+	return Partition(a, low, high);
+}
+
+// Implementing QuickSort algorithm.
+int QuickSort(int a[], int low, int high)
+{
+	int pindex;
+	if(low < high)
+	{
+		// Partitioning array using randomized pivot.
+		pindex = RandomPivotPartition(a, low, high);
+		// Recursively implementing QuickSort.
+		QuickSort(a, low, pindex-1);
+		QuickSort(a, pindex+1, high);
+	}
+	return 0;
+}
+
+int main()
+{
+	int n, i;
+	cout<<"\nEnter the number of data element to be sorted: ";
+	cin>>n;
+	
+	int arr[n];
+	for(i = 0; i < n; i++)
+	{
+		cout<<"Enter element "<<i+1<<": ";
+		cin>>arr[i];
+	}
+	
+	QuickSort(arr, 0, n-1);
+	
+	// Printing the sorted data.
+	cout<<"\nSorted Data ";
+	for (i = 0; i < n; i++)
+        	cout<<"->"<<arr[i];
+        
+	return 0;
+}   
+
+
+
+Program Explanation:
+1. Take input of data.
+2. Call QuickSort() function.
+3. Through RandomPivotPartition(), select pivot randomly.
+4. Create a partition of the array on the basis of the pivot so that the element to the left of the pivot are smaller and to the right are greater.
+5. Recursively insert the partitions into QuickSort() and repeat step 2 until low is lesser than high.
+6. Return to main and display the result.
+7. Exit. 
+
+Runtime Test Cases:
+Case 1: (avg case)
+
+Enter the number of data element to be sorted: 10
+Enter element 1: 23
+Enter element 2: 9876
+Enter element 3: 459
+Enter element 4: 650
+Enter element 5: 32
+Enter element 6: 9
+Enter element 7: 4705
+Enter element 8: 1
+Enter element 9: 17
+Enter element 10: 3
+
+Sorted Data ->1->3->9->17->23->32->459->650->4705->9876

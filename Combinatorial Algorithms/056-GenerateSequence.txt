@@ -1,0 +1,109 @@
+This is a C++ Program to generate a sequence of n characters for a given specific case.
+
+Problem Description:
+1. This algorithm generates sequences of n characters from a specific sequence.
+2. The time complexity of this algorithm is O(n).
+
+Problem Solution:
+1. This algorithm takes the input of the specific sequence.
+2. It generates a random subsequence from the given character string.
+3. Exit.
+
+C++ Program/Source Code:
+
+// C++ Program to generate a sequence of n characters for a given specific case.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<stdlib.h>
+#include<string.h>
+
+using namespace std;
+
+// A function to generate a random sequence of the given length from a given string.
+void GenSequence(char str[], int m, int len, char *seq)
+{
+	int i, j=0, k, index;
+	for(i = 0; i < m; i++)
+	{
+		// Use rand() to generate random indexes.
+		// Store the very first character directly into the sequence.
+		if(j == 0)
+			seq[j++] = str[rand()%len];
+		// Check for the repetitions.
+		else
+		{
+			h:
+			index = rand()%len;
+			for(k = 0; k < j; k++)
+			{
+				if(str[index] == seq[k])
+					goto h;
+			}
+			seq[j++] = str[index];
+		}
+	}
+	// End the sequence with null character.
+	seq[j] = '\0';
+}
+
+int main()
+{
+	int n, m, len, i;
+	char str[100];
+	cout<<"Enter the base string: ";
+	cin>>str;
+	
+	cout<<"\nEnter the number of strings to be generated from the Base string: ";
+	cin>>n;
+	
+	cout<<"\nEnter the length of each string to be generated: ";
+	cin>>m;
+	
+	len = strlen(str);
+	
+	// Print the generated sequence.
+	for(i = 0; i < n; i++)
+	{
+		char seq[m];
+		GenSequence(str, m, len, seq);
+		cout<<"\nSequence "<<i+1<<": "<<seq;
+	}
+	
+	return 0;
+}
+
+Program Explanation:
+1. Take the input of the base string, the number of the sequences to be generated and the length of each sequence.
+2. Using strlen() library function, get the length of the base sequence.
+3. Call GenSequence() n times for n sequence.
+4. Inside GenSequence(), using rand() generate the random index for each character in the required sequence.
+5. Check if that sequence is used earlier if it is, then it discards that and generate random index again.
+6. Return to main and display the generated sequence.
+7. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the base string: abcedfghijklmnopq
+
+Enter the number of strings to be generated from the Base string: 5
+
+Enter the length of each string to be generated: 6
+
+Sequence 1: hfkoqe
+Sequence 2: qabkio
+Sequence 3: qpeing
+Sequence 4: bjaegn
+Sequence 5: qpfham
+
+Case 2:
+Enter the base string: aabbccddeeffgghhiijj
+
+Enter the number of strings to be generated from the Base string: 5
+
+Enter the length of each string to be generated: 8
+
+Sequence 1: ahaecjbc
+Sequence 2: cdfhbicg
+Sequence 3: gaijhddf
+Sequence 4: jgdjhhbf
+Sequence 5: bcafedbi

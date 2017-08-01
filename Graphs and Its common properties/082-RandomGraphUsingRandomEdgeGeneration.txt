@@ -1,0 +1,110 @@
+This is a C++ program to create a random graph using random edge generation.
+
+Problem Description:
+1. This algorithm generates a undirected random graph for some random number of edges and vertexes.
+2. The time complexity of this algorithm is O(v*e).
+
+Problem Solution:
+1. This algorithm randomly assigns a number of vertexes and edges of the graph.
+2. It connects vertexes randomly and generates cyclic, acyclic or disconnected undirected graphs.
+
+C++ Program/Source Code:
+// C++ Program to create a random graph using random edge generation.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include<iostream>
+#include<stdlib.h>
+
+using namespace std;
+
+// A function to generate random graph.
+void GenerateRandGraphs(int NOE, int NOV)
+{
+	int i, j, edge[NOE][2], count;
+	i = 0;
+	// Build a connection between two random vertex.
+	while(i < NOE)
+	{
+		edge[i][0] = rand()%NOV+1;
+		edge[i][1] = rand()%NOV+1;
+		
+		if(edge[i][0] == edge[i][1])
+			continue;
+		else
+		{
+			for(j = 0; j < i; j++)
+			{
+				if((edge[i][0] == edge[j][0] && edge[i][1] == edge[j][1]) || (edge[i][0] == edge[j][1] && edge[i][1] == edge[j][0]))
+					i--;
+			}
+		}
+		i++;
+	}
+	
+	// Print the random graph.
+	cout<<"\nThe generated random random graph is: ";
+	for(i = 0; i < NOV; i++)
+	{
+		count = 0;
+		cout<<"\n\t"<<i+1<<"-> { ";
+		for(j = 0; j < NOE; j++)
+		{
+			if(edge[j][0] == i+1)
+			{
+				cout<<edge[j][1]<<"   ";
+				count++;
+			}
+			else if(edge[j][1] == i+1)
+			{
+				cout<<edge[j][0]<<"   ";
+				count++;
+			}
+			else if(j == NOE-1 && count == 0)
+				cout<<"Isolated Vertex!";
+		}
+		cout<<" }";
+	}	
+}
+
+int main()
+{
+	int n, i, e, v;
+	
+	cout<<"Random graph generation: ";
+	
+	// Randomly assign vertex and edges of the graph.
+	v = 11+rand()%10;
+	cout<<"\nThe graph has "<<v<<" vertexes.";
+	e = rand()%((v*(v-1))/2);
+	cout<<"\nThe graph has "<<e<<" edges.";
+	
+	// A function to generate a random undirected graph with e edges and v vertexes.
+	GenerateRandGraphs(e, v);
+}
+
+Program Explanation:
+1. Using rand(), assign random values to the number of vertex and edges of the graph.
+2. Call GenerateRandGraphs(), with 'e' as the number of edges and 'v' as the number of vertexes, in the argument list.
+3. Inside GenerateRandGraphs(), generate a connection between two random numbers.
+4. Check for the self-edge and multiple edges between two vertexes.
+5. Print all the connection of each vertex, irrespective of the direction.
+6. Print "Isolated vertex" for the vertex having zero degrees.
+7. Exit.
+
+Runtime Test Cases:
+Case 1:
+Random graph generation:
+The graph has 12 vertexes.
+The graph has 53 edges.
+The generated random random graph is:
+        1-> { 4   11   9   7   10   6   12   5   8   3    }
+        2-> { 4   12   11   3   7   9    }
+        3-> { 8   10   12   7   5   11   2   6   1    }
+        4-> { 2   1   12   11   10   9   8   5    }
+        5-> { 11   6   10   12   3   9   1   4    }
+        6-> { 5   11   10   7   1   8   9   3   12    }
+        7-> { 12   8   3   10   1   6   11   2    }
+        8-> { 3   12   7   10   9   6   1   4    }
+        9-> { 11   10   12   1   5   4   8   2   6    }
+        10-> { 3   9   5   8   11   12   7   6   1   4    }
+        11-> { 5   9   10   2   1   3   6   7   4   12    }
+        12-> { 2   3   7   8   4   9   10   5   1   11   6    }

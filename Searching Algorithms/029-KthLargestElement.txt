@@ -1,0 +1,123 @@
+C++ Program to find Kth Largest Element in a Sequence.
+
+Problem Description:
+1. Extract the Kth largest element from a sequence.
+2. By selectively sorting the array to get Kth largest element it has the complexity of O(k*n).
+2. We can improve the time complexity by approaching the problem using max-heap.
+3. The time complexity is O(n+k*log(n)).
+
+Problem Solution:
+1. Approach the solution using max heap technique.
+2. Build the max heap k times.
+3. In each iteration pop max of the heap out of the sequence.
+4. Display the Kth max of the heap.
+5. Exit.
+
+C++ Program/Source Code:
+
+// C++ program to find Kth Largest Element in a Sequence.
+// This program is successfully run on Dev-C++ using TDM-GCC 4.9.2 MinGW compiler on a Windows system.
+#include <iostream>
+
+using namespace std;
+
+// A function to heapify the array.
+void MaxHeapify(int a[], int i, int n)
+{
+	int j, temp;
+	temp = a[i];
+	j = 2*i;
+
+	while (j <= n)
+	{
+		if (j < n && a[j+1] > a[j])
+			j = j+1;
+		// Break if parent value is already greater than child value.
+		if (temp > a[j])
+			break;
+		// Switching value with the parent node if temp < a[j].
+		else if (temp <= a[j])
+		{
+			a[j/2] = a[j];
+			j = 2*j;
+		}
+	}
+	a[j/2] = temp;
+	return;
+}
+
+// A function to build max heap from the initial array by checking all non-leaf node to satisfy the condition.
+void Build_MaxHeap(int a[], int n)
+{
+	int i;
+	for(i = n/2; i >= 1; i--)
+		MaxHeapify(a, i, n);
+}
+
+int main()
+{
+	int n, i, temp, k;
+	cout<<"\nEnter the number of data element to be sorted: ";
+	cin>>n;
+	n++;
+	int arr[n];
+	for(i = 1; i < n; i++)
+	{
+		cout<<"Enter element "<<i<<": ";
+		cin>>arr[i];
+	}
+	
+	cout<<"\nEnter the k value: ";
+	cin>>k;
+	
+	Build_MaxHeap(arr, n-1);
+
+	// Build max-heap k times, extract the maximum and store it in the end of the array.
+	for(i = n-1; i >= n-k; i--)
+	{
+		temp = arr[i];
+		arr[i] = arr[1];
+		arr[1] = temp;
+		MaxHeapify(arr, 1, i - 1);
+	}
+	
+	// Printing the array state.
+	cout<<"\nAfter max-heapify the given array "<<k<<" times the array state is: ";
+	for(i = 1; i < n; i++)
+		cout<<"->"<<arr[i];
+
+	// The Kth largest element.
+	cout<<"\n\nThe "<<k<<"th largest element is: "<<arr[n-k];
+	return 0;
+}
+
+
+Program Explanation:
+1. Take input of data.
+2. Call Build_MaxHeap() function with 'arr' the array of data and 'n-1' the number of values, in the argument list.
+3. Send the max of the heap to the end of the sequence.
+4. Heapify the remaining sequence.
+5. Repeat the process for 'k' times.
+6. Display the final state of the array.
+7. Display the max from the heap extracted from kth iteration as a result.
+8. Exit.
+
+Runtime Test Cases:
+Case 1:
+Enter the number of data element to be sorted: 10
+Enter element 1: 2
+Enter element 2: 66
+Enter element 3: 5
+Enter element 4: 44
+Enter element 5: 99
+Enter element 6: 124
+Enter element 7: 356
+Enter element 8: 22
+Enter element 9: 0
+Enter element 10: 49
+
+Enter the k value: 4
+
+After max-heapify the given array 4 times the array state is: ->49->44->5->22->0->2->66->99->124->356
+
+The 4th largest element is: 66
