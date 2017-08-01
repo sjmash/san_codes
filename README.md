@@ -1,2 +1,2 @@
 # san_codes
-c++ program with description
+C++ program with breif description about algorithm, its time and space complexity and sample outputs of the programs. 
